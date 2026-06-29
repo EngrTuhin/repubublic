@@ -128,7 +128,21 @@ export function useMotorUnderwriting(id) {
   useEffect(() => {
     if (existingData) {
       const record = existingData.data || existingData;
-      reset(record);
+      const vatVal = parseFloat(record.vat);
+      const hasVat = !isNaN(vatVal) && vatVal > 0;
+      reset({
+        ...record,
+        addVat: hasVat ? true : (record.addVat !== undefined ? !!record.addVat : false),
+        cycloned: !!record.cycloned,
+        riot: !!record.riot,
+        earthd: !!record.earthd,
+        coins: !!record.coins,
+        otherleader: !!record.otherleader,
+        pw_edit: !!record.pw_edit,
+        rcode: !!record.rcode,
+        avts: !!record.avts,
+        extra1: !!record.extra1,
+      });
     }
   }, [existingData, reset]);
 
