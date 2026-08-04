@@ -9,6 +9,8 @@ import {
   useUpdateMotorUnderwritingMutation,
 } from "./motorVehicleApi";
 
+import { calculateMotorPremium } from "./calculations/motorCalculations";
+
 export function useMotorUnderwriting(id) {
   const router = useRouter();
   const isEditMode = !!id;
@@ -93,13 +95,13 @@ export function useMotorUnderwriting(id) {
       addVat: true,
       vat: "",
       total: "",
-      cyclonebm_rate: "",
+      cyclonebm_rate: "0.25",
       cycloneamt: "",
       cycloned: false,
-      riot_rate: "",
+      riot_rate: "0.50",
       riot_amt: "",
       riot: false,
-      earth_rate: "",
+      earth_rate: "0.25",
       earthamt: "",
       earthd: false,
       narration: "",
@@ -116,6 +118,36 @@ export function useMotorUnderwriting(id) {
     formState: { errors },
   } = formMethods;
 
+  // Reactive calculation watcher for web admin edit form
+  const watchedValues = watch([
+    "insamt",
+    "own_dp_basic",
+    "full_ins_value",
+    "act_liability",
+    "cycloned",
+    "riot",
+    "earthd",
+    "cyclone",
+    "earthcue",
+    "driver_rate",
+    "passenger_rate",
+    "helper_rate",
+    "conductor_rate",
+    "supervisor_rate",
+    "driver_qty",
+    "passenger_qty",
+    "helper_qty",
+    "conductor_qty",
+    "supervisor_qty",
+    "driver",
+    "passenger",
+    "addVat",
+  ]);
+
+  useEffect(() => {
+    calculateMotorPremium(setValue, getValues);
+  }, [watchedValues]);
+
   // Fetch existing record if in edit mode
   const { data: existingData, isLoading: isFetching, error: fetchError } = useGetMotorUnderwritingQuery(id, {
     skip: !id,
@@ -130,8 +162,16 @@ export function useMotorUnderwriting(id) {
       const record = existingData.data || existingData;
       const vatVal = parseFloat(record.vat);
       const hasVat = !isNaN(vatVal) && vatVal > 0;
+      const rawCov = record.coverage_type || record.cert_type || record.ttgroup;
+      const covArray = Array.isArray(rawCov)
+        ? rawCov
+        : (rawCov ? [rawCov] : ["Comprehensive Insurance"]);
+
       reset({
         ...record,
+        coverage_type: covArray,
+        cert_type: record.cert_type || covArray[0],
+        vehicle_usage: record.vehicle_usage || record.usage || "private_use",
         addVat: hasVat ? true : (record.addVat !== undefined ? !!record.addVat : false),
         cycloned: !!record.cycloned,
         riot: !!record.riot,
@@ -143,6 +183,7 @@ export function useMotorUnderwriting(id) {
         avts: !!record.avts,
         extra1: !!record.extra1,
       });
+      setTimeout(() => calculateMotorPremium(setValue, getValues), 100);
     }
   }, [existingData, reset]);
 

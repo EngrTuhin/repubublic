@@ -35,6 +35,11 @@ export default function FormField({
     onSearch,
   } = field;
 
+  // 0. Check hidden condition
+  if (field.hidden) {
+    return null;
+  }
+
   // 1. Check showIf conditions
   if (showIf && typeof watch === "function") {
     const parentValue = watch(showIf.field);

@@ -20,6 +20,16 @@ export const menuConfig = [
             label: "Motor Vehicle",
             href: "/underwriting/motor-vehicle",
           },
+          {
+            id: "uw-omp",
+            label: "Overseas Mediclaim",
+            href: "/underwriting/omp",
+          },
+          {
+            id: "uw-personal-accident",
+            label: "Personal Accident",
+            href: "/underwriting/personal-accident",
+          },
         ],
       },
     ],

@@ -15,6 +15,6 @@ export const baseApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["MotorUnderwriting"],
+  tagTypes: ["MotorUnderwriting", "PaUnderwriting", "OmpUnderwriting"],
   endpoints: () => ({}),
 });

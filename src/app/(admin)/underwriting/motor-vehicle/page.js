@@ -65,14 +65,6 @@ export default function MotorUnderwritingListPage() {
       <PageHeader
         title={motorUnderwritingTableConfig.title}
         description={motorUnderwritingTableConfig.description}
-        actions={
-          <Link href="/underwriting/motor-vehicle/new">
-            <Button className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-500/25 cursor-pointer">
-              <Plus className="w-4.5 h-4.5" />
-              New Underwriting
-            </Button>
-          </Link>
-        }
       />
 
       {error && (

@@ -26,6 +26,8 @@ export default function FormBuilder({ config, hookData }) {
   // Render Section components based on configuration schemas
   const renderSection = (section) => {
     const sectionColSpan = section.class || section.className || "col-span-12";
+    const visibleFields = (section.fields || []).filter((f) => !f.hidden);
+    if (visibleFields.length === 0) return null;
 
     return (
       <div
