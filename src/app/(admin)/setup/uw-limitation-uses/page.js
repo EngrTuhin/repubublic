@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import SetupTablePage from "@/components/setup/SetupTablePage";
+import TablePage from "@/components/setup/TablePage";
 
-export default function LimitationUsesSetupPage() {
-  return <SetupTablePage tab="uw-limitation-uses" />;
+export default function UwLimitationUsesSetupPage() {
+  return <TablePage tab="uw-limitation-uses" />;
 }

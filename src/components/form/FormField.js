@@ -2,6 +2,7 @@ import React from "react";
 import TextInput from "./fields/TextInput";
 import SelectInput from "./fields/SelectInput";
 import TextareaInput from "./fields/TextareaInput";
+import RichTextareaInput from "./fields/RichTextareaInput";
 import * as LucideIcons from "lucide-react";
 
 export default function FormField({
@@ -132,14 +133,23 @@ export default function FormField({
       );
       break;
 
+    case "richtext":
+    case "wysiwyg":
     case "textarea":
+      const richTextValue = typeof watch === "function" ? watch(name) : (field.defaultValue || "");
       inputContent = (
-        <TextareaInput
+        <RichTextareaInput
           label={label}
+          name={name}
           placeholder={placeholder}
           readOnly={readOnly}
-          className={className}
-          {...register(name, validationRules)}
+          required={required}
+          value={richTextValue}
+          onChange={(content) => {
+            if (hookData?.setValue) {
+              hookData.setValue(name, content, { shouldValidate: true, shouldDirty: true });
+            }
+          }}
           error={errors[name]}
           {...props}
         />
@@ -174,6 +184,63 @@ export default function FormField({
           </div>
           {errors[name] && (
             <p className="mt-1.5 text-xs text-red-650">
+              {errors[name].message}
+            </p>
+          )}
+        </div>
+      );
+      break;
+
+    case "status-buttons":
+    case "button-group":
+      const currentValue = typeof watch === "function" ? watch(name) : (field.defaultValue || "Pending Underwriting");
+      inputContent = (
+        <div className="space-y-1.5 py-1">
+          {label && (
+            <span className="block text-xs font-bold text-slate-700">
+              {label}
+              {required && <span className="text-red-500 ml-1">*</span>}
+            </span>
+          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {staticOptions.map((opt) => {
+              const isSelected = currentValue === opt.value;
+              const val = opt.value;
+
+              let activeStyle = "bg-blue-600 text-white shadow-sm";
+              if (val === "Approved" || opt.color === "emerald") {
+                activeStyle = "bg-emerald-600 text-white shadow-sm shadow-emerald-500/20";
+              } else if (val === "Rejected" || opt.color === "rose") {
+                activeStyle = "bg-rose-600 text-white shadow-sm shadow-rose-500/20";
+              } else if (val === "Pending Underwriting" || opt.color === "amber") {
+                activeStyle = "bg-amber-500 text-slate-950 font-bold shadow-sm shadow-amber-500/20";
+              }
+
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    if (hookData?.setValue) {
+                      hookData.setValue(name, opt.value, { shouldValidate: true, shouldDirty: true });
+                    }
+                    if (typeof field.onChange === "function") {
+                      field.onChange(opt.value, hookData?.setValue, hookData?.getValues);
+                    }
+                  }}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${isSelected
+                      ? `${activeStyle} border-transparent`
+                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900"
+                    }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+            <input type="hidden" {...register(name, validationRules)} />
+          </div>
+          {errors[name] && (
+            <p className="mt-1 text-xs text-red-650">
               {errors[name].message}
             </p>
           )}

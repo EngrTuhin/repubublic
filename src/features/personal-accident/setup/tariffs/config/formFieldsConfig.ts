@@ -1,0 +1,32 @@
+export const formFieldsConfig = [
+  {
+    name: "pa_occupation_id",
+    label: "PA Occupation",
+    type: "select",
+    required: true,
+    endpoint: "/v1/pa-occupations",
+    mappingTemplate: "paOccupationTemplate",
+    responseKey: "data",
+    placeholder: "Select PA Occupation",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "pa_table_type_id",
+    label: "PA Table Type",
+    type: "select",
+    required: true,
+    endpoint: "/v1/pa-table-types",
+    mappingTemplate: "paTableTypeTemplate",
+    responseKey: "data",
+    placeholder: "Select PA Table Type",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "rate",
+    label: "Tariff Rate (%)",
+    type: "float",
+    required: true,
+    placeholder: "e.g. 30.0",
+    colSpan: "col-span-12",
+  },
+];

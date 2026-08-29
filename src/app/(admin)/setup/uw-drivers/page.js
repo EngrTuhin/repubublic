@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import SetupTablePage from "@/components/setup/SetupTablePage";
+import TablePage from "@/components/setup/TablePage";
 
-export default function DriversSetupPage() {
-  return <SetupTablePage tab="uw-drivers" />;
+export default function UwDriversSetupPage() {
+  return <TablePage tab="uw-drivers" />;
 }

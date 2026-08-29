@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export default function Badge({ children, variant = "primary", className, ...props }) {
+export default function Badge({ children, variant = "primary", className = "", ...props }) {
   const baseStyles = "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors";
 
   const variants = {

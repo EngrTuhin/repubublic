@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import SetupTablePage from "@/components/setup/SetupTablePage";
+import TablePage from "@/components/setup/TablePage";
 
-export default function ClientsSetupPage() {
-  return <SetupTablePage tab="uw-clients" />;
+export default function UwClientsSetupPage() {
+  return <TablePage tab="uw-clients" />;
 }

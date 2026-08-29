@@ -1,206 +1,197 @@
 export const menuConfig = [
   {
-    title: "Operations",
-    id: "operations",
-    items: [
+    id: "dashboard",
+    label: "Dashboard",
+    icon: "userCheck",
+    href: "/dashboard",
+  },
+  {
+    id: "underwriting",
+    label: "Underwriting Desk",
+    icon: "underwriting",
+    href: "/underwriting",
+    children: [
       {
-        id: "dashboard",
-        label: "Dashboard",
-        icon: "userCheck",
-        href: "/dashboard",
+        id: "uw-motor-vehicle",
+        label: "Motor Vehicle",
+        href: "/underwriting/motor-vehicle",
       },
       {
-        id: "underwriting",
-        label: "Underwriting Desk",
-        icon: "underwriting",
-        href: "/underwriting",
-        children: [
-          {
-            id: "uw-motor-vehicle",
-            label: "Motor Vehicle",
-            href: "/underwriting/motor-vehicle",
-          },
-          {
-            id: "uw-omp",
-            label: "Overseas Mediclaim",
-            href: "/underwriting/omp",
-          },
-          {
-            id: "uw-personal-accident",
-            label: "Personal Accident",
-            href: "/underwriting/personal-accident",
-          },
-        ],
+        id: "uw-omp",
+        label: "Overseas Mediclaim",
+        href: "/underwriting/omp",
+      },
+      {
+        id: "uw-personal-accident",
+        label: "Personal Accident",
+        href: "/underwriting/personal-accident",
       },
     ],
   },
   {
-    title: "Setup",
-    id: "setup-group",
-    items: [
+    id: "claims-desk",
+    label: "Claims Settlement",
+    icon: "fileText",
+    href: "/claims",
+  },
+
+  {
+    id: "product-features",
+    label: "Product Feature",
+    icon: "sparkles",
+    href: "/product-features",
+  },
+  {
+    id: "advertisements",
+    label: "Advertisement",
+    icon: "advertisement",
+    href: "/advertisements",
+  },
+  {
+    id: "setup-data",
+    label: "Setup Desk",
+    icon: "settings",
+    href: "/setup/motor-setup/tariff-types",
+    children: [
       {
-        id: "setup-data",
-        label: "Setup Desk",
-        icon: "settings",
-        href: "/setup/uw-clients",
+        id: "motor-setup",
+        label: "Motor Setup",
+        href: "/setup/motor-setup/tariff-types",
         children: [
           {
-            id: "uw-clients",
-            label: "Clients",
-            href: "/setup/uw-clients",
+            id: "motor-tariff-types",
+            label: "Tariff Types",
+            href: "/setup/motor-setup/tariff-types",
           },
           {
-            id: "uw-bank-infos",
-            label: "Banks",
-            href: "/setup/uw-bank-infos",
+            id: "motor-tariff-groups",
+            label: "Tariff Groups",
+            href: "/setup/motor-setup/tariff-groups",
           },
           {
-            id: "uw-bank-branches",
-            label: "Branches",
-            href: "/setup/uw-bank-branches",
+            id: "motor-class-sub-types",
+            label: "Class Sub Types",
+            href: "/setup/motor-setup/class-sub-types",
           },
           {
-            id: "uw-tarrifs",
+            id: "motor-tariffs",
+            label: "Motor Tariffs",
+            href: "/setup/motor-setup/tariffs",
+          },
+          {
+            id: "motor-vehicle-usages",
+            label: "Vehicle Usages",
+            href: "/setup/motor-setup/vehicle-usages",
+          },
+          // {
+          //   id: "motor-certificate-types",
+          //   label: "Certificates",
+          //   href: "/setup/motor-certificate-types",
+          // },
+          // {
+          //   id: "uw-drivers",
+          //   label: "Drivers",
+          //   href: "/setup/uw-drivers",
+          // },
+          // {
+          //   id: "uw-limitation-uses",
+          //   label: "Limitations",
+          //   href: "/setup/uw-limitation-uses",
+          // },
+        ],
+      },
+      {
+        id: "omp-setup",
+        label: "OMP Setup",
+        href: "/setup/omp-setup/age-bands",
+        children: [
+          {
+            id: "omp-age-bands",
+            label: "Age Bands",
+            href: "/setup/omp-setup/age-bands",
+          },
+          {
+            id: "omp-country-options",
+            label: "Country Options",
+            href: "/setup/omp-setup/country-options",
+          },
+          {
+            id: "omp-plan-options",
+            label: "Plan Options",
+            href: "/setup/omp-setup/plan-options",
+          },
+          {
+            id: "omp-policy-types",
+            label: "Policy Types",
+            href: "/setup/omp-setup/policy-types",
+          },
+          {
+            id: "omp-tariffs",
             label: "Tariffs",
-            href: "/setup/uw-tarrifs",
-          },
-          {
-            id: "uw-drivers",
-            label: "Drivers",
-            href: "/setup/uw-drivers",
-          },
-          {
-            id: "motor-certificate-types",
-            label: "Certificates",
-            href: "/setup/motor-certificate-types",
-          },
-          {
-            id: "uw-limitation-uses",
-            label: "Limitations",
-            href: "/setup/uw-limitation-uses",
+            href: "/setup/omp-setup/tariffs",
           },
         ],
       },
+      {
+        id: "pa-setup",
+        label: "PA Setup",
+        href: "/setup/pa-setup/occupations",
+        children: [
+          {
+            id: "pa-occupations",
+            label: "PA Occupations",
+            href: "/setup/pa-setup/occupations",
+          },
+          {
+            id: "pa-table-types",
+            label: "PA Table Types",
+            href: "/setup/pa-setup/table-types",
+          },
+          {
+            id: "pa-tariffs",
+            label: "PA Tariffs",
+            href: "/setup/pa-setup/tariffs",
+          },
+        ],
+      },
+      {
+        id: "uw-clients",
+        label: "Clients",
+        href: "/setup/uw-clients",
+      },
+      {
+        id: "system-settings",
+        label: "Company Settings",
+        href: "/setup/system-settings",
+      },
       // {
-      //   id: "claims",
-      //   label: "Claims Desk",
-      //   icon: "claims",
-      //   href: "/claims",
-      //   children: [
-      //     {
-      //       id: "claims-management",
-      //       label: "Claims management",
-      //       href: "/claims/manage",
-      //       children: [
-      //         {
-      //           id: "claims-new",
-      //           label: "New Claims",
-      //           href: "/claims/manage/new",
-      //         },
-      //         {
-      //           id: "claims-progress",
-      //           label: "In Progress",
-      //           href: "/claims/manage/progress",
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       id: "claims-settlement",
-      //       label: "Settlements",
-      //       href: "/claims/settlements",
-      //     },
-      //   ],
+      //   id: "uw-bank-infos",
+      //   label: "Banks",
+      //   href: "/setup/uw-bank-infos",
       // },
       // {
-      //   id: "payments",
-      //   label: "Payment Oversight",
-      //   icon: "payments",
-      //   href: "/payments",
-      //   children: [
-      //     {
-      //       id: "payments-billing",
-      //       label: "Premium Billing",
-      //       href: "/payments/billing",
-      //     },
-      //     {
-      //       id: "payments-refunds",
-      //       label: "Refund Requests",
-      //       href: "/payments/refunds",
-      //     },
-      //   ],
+      //   id: "uw-bank-branches",
+      //   label: "Branches",
+      //   href: "/setup/uw-bank-branches",
       // },
     ],
   },
-  // {
-  //   title: "Support",
-  //   id: "support",
-  //   items: [
-  //     {
-  //       id: "communications",
-  //       label: "Communication Center",
-  //       icon: "communications",
-  //       href: "/communications",
-  //       children: [
-  //         {
-  //           id: "comm-messages",
-  //           label: "Messages",
-  //           href: "/communications/messages",
-  //         },
-  //         {
-  //           id: "comm-tickets",
-  //           label: "Support Tickets",
-  //           href: "/communications/tickets",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       id: "documents",
-  //       label: "Document Desk",
-  //       icon: "documents",
-  //       href: "/documents",
-  //       children: [
-  //         {
-  //           id: "doc-verification",
-  //           label: "Client Verification",
-  //           href: "/documents/verification",
-  //         },
-  //         {
-  //           id: "doc-templates",
-  //           label: "Templates & Forms",
-  //           href: "/documents/templates",
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "Analytics",
-  //   id: "analytics",
-  //   items: [
-  //     {
-  //       id: "analytics-reports",
-  //       label: "Reports & Analytics",
-  //       icon: "analytics",
-  //       href: "/analytics",
-  //       children: [
-  //         {
-  //           id: "reports-financial",
-  //           label: "Financial Performance",
-  //           href: "/analytics/financial",
-  //         },
-  //         {
-  //           id: "reports-sales",
-  //           label: "Sales Analysis",
-  //           href: "/analytics/sales",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       id: "audit",
-  //       label: "Audit Logs",
-  //       icon: "audit",
-  //       href: "/audit",
-  //     },
-  //   ],
-  // },
+  {
+    id: "reports-desk",
+    label: "Reports Desk",
+    icon: "fileText",
+    href: "/reports/proposal",
+    children: [
+      { id: "rpt-proposal", label: "Proposal Report", href: "/reports/proposal" },
+      { id: "rpt-collection", label: "Premium Collection", href: "/reports/collection" },
+      { id: "rpt-product", label: "Product-Wise Business", href: "/reports/product" },
+      { id: "rpt-officer", label: "Officer Performance", href: "/reports/officer" },
+      { id: "rpt-payment", label: "Payment Tracking", href: "/reports/payment" },
+      { id: "rpt-certificate", label: "Certificates Feed", href: "/reports/certificate" },
+      { id: "rpt-renewal", label: "Policy Renewals", href: "/reports/renewal" },
+      { id: "rpt-claim", label: "Claim Settlement", href: "/reports/claim" },
+      { id: "rpt-customer", label: "Customer Database", href: "/reports/customer" },
+      // { id: "rpt-tariff", label: "Tariff Audit Trail", href: "/reports/tariff" },
+    ],
+  },
 ];

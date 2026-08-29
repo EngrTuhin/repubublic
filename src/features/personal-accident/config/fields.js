@@ -72,5 +72,48 @@ export const paUnderwritingLayoutConfig = {
         },
       ],
     },
+    {
+      id: "documents",
+      label: "Documents",
+      icon: "FileCheck",
+      sections: [
+        {
+          id: "documents_management",
+          title: "Attached Policy Documents",
+          class: "col-span-12",
+          customComponent: "DocumentSection",
+          documentableType: "Pa",
+          addDocoment: true,
+        },
+      ],
+    },
+    {
+      id: "confirmation",
+      label: "Confirmation",
+      icon: "MessageSquare",
+      sections: [
+        {
+          id: "confirmation_group",
+          title: "Final Confirmation",
+          class: "col-span-12",
+          fields: [
+
+            {
+              name: "status",
+              label: "Underwriting Status",
+              type: "select",
+              required: true,
+              defaultValue: "Pending Underwriting",
+              colSpan: "col-span-12 md:col-span-6",
+              options: [
+                { value: "Pending Underwriting", label: "Pending Underwriting" },
+                { value: "Approved", label: "Approved" },
+                { value: "Rejected", label: "Rejected" },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ],
 };

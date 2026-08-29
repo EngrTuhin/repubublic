@@ -1,0 +1,48 @@
+export const formFieldsConfig = [
+  {
+    name: "label",
+    label: "Policy Type Title",
+    type: "text",
+    required: true,
+    placeholder: "e.g. Business / Holiday",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "value",
+    label: "Type Code",
+    type: "text",
+    required: true,
+    placeholder: "e.g. business_holiday",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  {
+    name: "min_days",
+    label: "Minimum Days",
+    type: "number",
+    required: true,
+    placeholder: "e.g. 1",
+    colSpan: "col-span-12 md:col-span-4",
+  },
+  {
+    name: "max_days",
+    label: "Maximum Days",
+    type: "number",
+    required: true,
+    placeholder: "e.g. 180",
+    colSpan: "col-span-12 md:col-span-4",
+  },
+  {
+    name: "sort_order",
+    label: "Display Order",
+    type: "number",
+    placeholder: "e.g. 1",
+    colSpan: "col-span-12 md:col-span-4",
+  },
+  {
+    name: "rule_info",
+    label: "Rule Description / Notes",
+    type: "text",
+    placeholder: "e.g. Up to 180 days per trip",
+    colSpan: "col-span-12",
+  },
+];

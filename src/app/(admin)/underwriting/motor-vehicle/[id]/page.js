@@ -6,6 +6,7 @@ import FormBuilder from "@/components/form/FormBuilder";
 import { useMotorUnderwriting } from "@/features/motor-vehicle/useMotorUnderwriting";
 import { motorUnderwritingLayoutConfig } from "@/features/motor-vehicle/config/fields";
 import PageHeader from "@/components/layout/PageHeader";
+
 import * as LucideIcons from "lucide-react";
 
 export default function UnderwritingFormPage({ params }) {
@@ -77,6 +78,8 @@ export default function UnderwritingFormPage({ params }) {
       </div>
 
       <FormBuilder config={motorUnderwritingLayoutConfig} hookData={hookData} />
+
+
     </div>
   );
 }

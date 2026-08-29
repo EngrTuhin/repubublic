@@ -14,12 +14,16 @@ import {
   HistoryIcon,
   MailIcon,
   BellIcon,
-  HelpCircleIcon
+  HelpCircleIcon,
+  SparklesIcon,
+  MegaphoneIcon,
 } from 'lucide-react';
 
 const iconRegistry = {
   dashboard: LayoutDashboardIcon,
   underwriting: FileTextIcon,
+  sparkles: SparklesIcon,
+  advertisement: MegaphoneIcon,
   claims: ShieldCheckIcon,
   payments: CreditCardIcon,
   communications: MessageSquareIcon,

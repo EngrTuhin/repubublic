@@ -1,25 +1,31 @@
 "use client";
 
 import React from "react";
-import { BellIcon, SearchIcon, MenuIcon, X } from "lucide-react";
+import { BellIcon, SearchIcon, MenuIcon, X, Building2 } from "lucide-react";
 import { useAdmin } from "@/store/AdminContext";
 import { RoleBadge } from "@/components/ui/Badge";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { useGetSystemSettingsQuery } from "@/features/api/systemSettingsApi";
 
 export default function AdminHeader() {
   const { state, isSidebarOpen, toggleSidebar } = useAdmin();
   const pathname = usePathname();
+  const { data: settingsResponse } = useGetSystemSettingsQuery();
+  const settings = settingsResponse?.data || {};
+
+  const companyName = settings.company_name || "Republic Insurance Limited";
+  const companyLogo = settings.logo;
 
   // Helper to map route pathnames to descriptive titles and subtitles
   const getHeaderDetails = (path) => {
     if (path.startsWith("/dashboard")) {
       return {
         title: "Dashboard",
-        subtitle: "Overview of operations and key metrics",
+        subtitle: `Overview of operations for ${companyName}`,
       };
     }
-    return { title: "InsureBD", subtitle: "Admin Portal" };
+    return { title: companyName, subtitle: "Management Portal" };
   };
 
   const { title, subtitle } = getHeaderDetails(pathname);
@@ -42,7 +48,7 @@ export default function AdminHeader() {
         <button
           onClick={toggleSidebar}
           aria-label="Toggle sidebar"
-          className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg lg:hidden transition-colors focus:outline-none"
+          className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none cursor-pointer"
         >
           {isSidebarOpen ? (
             <X className="w-5 h-5 animate-in fade-in zoom-in duration-200" />
@@ -75,26 +81,42 @@ export default function AdminHeader() {
         </div>
       </div>
 
-      {/* Right side: Actions */}
-      <div className="flex items-center gap-3 md:gap-5">
-        {/* Search Input with smooth expansion animation */}
-        <div className="relative hidden md:block group">
+      {/* Right side: Search, Company Badge & Profile Actions */}
+      <div className="flex items-center gap-3 md:gap-4">
+        {/* Company Identity Pill in Topbar */}
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl shadow-2xs">
+          {/* {companyLogo ? (
+            <img
+              src={companyLogo}
+              alt="Company Logo"
+              className="w-5 h-5 object-contain rounded bg-white p-0.5 border border-slate-200"
+            />
+          ) : (
+            <Building2 className="w-4 h-4 text-blue-600" />
+          )} */}
+          {/* <span className="text-xs font-bold text-slate-800 truncate max-w-[180px]">
+            {companyName}
+          </span> */}
+        </div>
+
+        {/* Search Input */}
+        {/* <div className="relative hidden md:block group">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors duration-200" />
           <input
             type="text"
             placeholder="Search files, policies..."
-            className="w-48 lg:w-64 pl-9 pr-4 py-1.5 text-xs bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 focus:border-blue-500 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100/50 transition-all duration-300"
+            className="w-40 lg:w-56 pl-9 pr-4 py-1.5 text-xs bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 focus:border-blue-500 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100/50 transition-all duration-300"
           />
-        </div>
+        </div> */}
 
-        {/* Notifications Button with subtle wiggling icon */}
-        <button
+        {/* Notifications Button */}
+        {/* <button
           aria-label="Notifications"
           className="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100/80 rounded-xl transition-all duration-200 active:scale-95 group"
         >
           <BellIcon className="w-5 h-5 group-hover:animate-wiggle" />
           <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white animate-pulse" />
-        </button>
+        </button> */}
 
         {/* User Info / Profile Badge */}
         {state.currentUser && (
@@ -115,8 +137,6 @@ export default function AdminHeader() {
           </div>
         )}
       </div>
-
-      {/* Tailwind animation definitions inline helper if needed, but we will add them in CSS */}
     </header>
   );
 }

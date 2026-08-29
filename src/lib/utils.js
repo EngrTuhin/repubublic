@@ -20,3 +20,16 @@ export function formatDate(dateString) {
     day: "numeric",
   });
 }
+
+export function getFilterParams(param = false) {
+  if (typeof window === "undefined") {
+    return param ? null : {};
+  }
+  const url = new URL(window.location.href);
+  if (!param) {
+    return Object.fromEntries(url.searchParams.entries());
+  }
+
+  return url.searchParams.get(param);
+}
+

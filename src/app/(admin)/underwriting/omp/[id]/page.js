@@ -3,31 +3,46 @@
 import React, { use } from "react";
 import Link from "next/link";
 import FormBuilder from "@/components/form/FormBuilder";
-import PageHeader from "@/components/layout/PageHeader";
 import { useOmpUnderwriting } from "@/features/omp/useOmpUnderwriting";
 import { ompUnderwritingLayoutConfig } from "@/features/omp/config/fields";
+import PageHeader from "@/components/layout/PageHeader";
+
 import * as LucideIcons from "lucide-react";
 
 export default function OmpEditPage({ params }) {
-  const { id } = use(params);
-  const hookData = useOmpUnderwriting(id);
-  const { isEditMode, isLoadingData, loadError, underwritingData } = hookData;
+  const resolvedParams = use(params);
+  const id = resolvedParams.id;
 
-  if (isLoadingData) {
+  const hookData = useOmpUnderwriting(id);
+
+  const {
+    isEditMode,
+    isLoadingData,
+    loadError,
+    underwritingData,
+    saveSuccess,
+    errorMessage,
+  } = hookData;
+
+  if (isEditMode && isLoadingData) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] gap-4">
         <LucideIcons.Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-        <span className="text-sm text-slate-500 font-semibold">Loading OMP proposal...</span>
+        <span className="text-sm text-slate-500 font-semibold">
+          Loading OMP proposal...
+        </span>
       </div>
     );
   }
 
-  if (loadError) {
+  if (isEditMode && loadError) {
     return (
       <div className="max-w-2xl mx-auto mt-12 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center space-y-4">
         <LucideIcons.Info className="w-12 h-12 text-rose-500 mx-auto" />
         <h3 className="text-lg font-bold text-slate-900">Failed to Load</h3>
-        <p className="text-slate-500 text-sm">The OMP proposal could not be retrieved from the server.</p>
+        <p className="text-slate-500 text-sm">
+          The requested OMP proposal could not be retrieved from the server.
+        </p>
         <Link
           href="/underwriting/omp"
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-xl text-xs"
@@ -48,8 +63,16 @@ export default function OmpEditPage({ params }) {
           <LucideIcons.ArrowLeft className="w-5 h-5" />
         </Link>
         <PageHeader
-          title={`Edit OMP: OMP-${id}`}
-          description={`Update proposal for ${underwritingData?.insured_name || "this insured"}.`}
+          title={
+            isEditMode
+              ? `Edit OMP: ${underwritingData?.bill_no || `OMP-${id}`}`
+              : "New OMP Proposal"
+          }
+          description={
+            isEditMode
+              ? `Update proposal for ${underwritingData?.insured_name || "this insured"}.`
+              : "Create a new OMP underwriting entry."
+          }
         />
       </div>
 

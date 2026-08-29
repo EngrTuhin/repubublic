@@ -7,7 +7,7 @@ const AdminContext = createContext(null);
 
 export function AdminProvider({ children }) {
   const { data: session, status } = useSession();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const currentUser = session?.user ? {
     id: session.user.id,

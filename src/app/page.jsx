@@ -35,7 +35,11 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
+        if (result.error === "CredentialsSignin") {
+          setError("Invalid email or password.");
+        } else {
+          setError(result.error || "Server error. Please try again later.");
+        }
         return;
       }
 

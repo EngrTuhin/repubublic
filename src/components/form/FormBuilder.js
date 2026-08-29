@@ -5,6 +5,7 @@ import FormField from "./FormField";
 import Button from "@/components/ui/Button";
 import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import DocumentSection from "@/features/documents/components/DocumentSection";
 
 export default function FormBuilder({ config, hookData }) {
   const {
@@ -21,11 +22,30 @@ export default function FormBuilder({ config, hookData }) {
     getOptionsForField,
     saveSuccess,
     errorMessage,
+    underwritingData,
+    id,
   } = hookData;
 
   // Render Section components based on configuration schemas
   const renderSection = (section) => {
     const sectionColSpan = section.class || section.className || "col-span-12";
+
+    // Handle custom component sections like DocumentSection
+    if (section.customComponent === "DocumentSection") {
+      const resolvedId = underwritingData?.id || id;
+      return (
+        <div key={section.id || "document_section"} className={sectionColSpan}>
+          <DocumentSection
+            documentableType={section.documentableType || "PremBill"}
+            documentableId={resolvedId}
+            initialDocuments={underwritingData?.documents}
+            addDocument={section.addDocument}
+            addDocoment={section.addDocoment}
+          />
+        </div>
+      );
+    }
+
     const visibleFields = (section.fields || []).filter((f) => !f.hidden);
     if (visibleFields.length === 0) return null;
 
@@ -147,7 +167,7 @@ export default function FormBuilder({ config, hookData }) {
                 >
                   <div className="grid grid-cols-12 gap-3.5 items-start">
                     {(tab.sections || tab.Group || []).map((s) =>
-                      renderSection(s),
+                      renderSection(s)
                     )}
                   </div>
 
@@ -204,7 +224,7 @@ export default function FormBuilder({ config, hookData }) {
             >
               <div className="grid grid-cols-12 gap-3.5 items-start">
                 {(config.sections || config.Group || []).map((s) =>
-                  renderSection(s),
+                  renderSection(s)
                 )}
               </div>
               <div className="flex justify-end gap-2 pt-4 border-t border-slate-200">

@@ -1,8 +1,17 @@
 "use client";
 
-import React from "react";
-import SetupTablePage from "@/components/setup/SetupTablePage";
+import PageBuilder from "@/components/setup/PageBuilder";
+import { useGlobal } from "@/hooks/useGlobal";
+import { tableConfig, formConfig } from "@/features/motor-vehicle/setup/tariffs/config";
 
-export default function TariffsSetupPage() {
-  return <SetupTablePage tab="uw-tarrifs" />;
+export default function UwTarrifsSetupPage() {
+  const state = useGlobal("v1/uw-tarrifs");
+
+  return (
+    <PageBuilder
+      tableConfig={tableConfig}
+      formConfig={formConfig}
+      state={state}
+    />
+  );
 }

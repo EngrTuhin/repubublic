@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import SetupTablePage from "@/components/setup/SetupTablePage";
+import TablePage from "@/components/setup/TablePage";
 
-export default function BankInfosSetupPage() {
-  return <SetupTablePage tab="uw-bank-infos" />;
+export default function UwBankInfosSetupPage() {
+  return <TablePage tab="uw-bank-infos" />;
 }

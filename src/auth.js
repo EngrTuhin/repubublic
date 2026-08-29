@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { apiClient } from "@/lib/apiClient";
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -28,34 +29,36 @@ export const authOptions = {
 
       async authorize(credentials) {
         try {
-          const res = await fetch(`${process.env.LARAVEL_API_URL}/v1/login`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({
-              email: credentials.email,
-              password: credentials.password,
-            }),
+          const res = await apiClient.post("/v1/login", {
+            email: credentials.email,
+            password: credentials.password,
           });
 
-          const data = await res.json();
+          const data = await res.json().catch(() => ({}));
 
           if (!res.ok) {
+            if (res.status >= 500) {
+              throw new Error("Server error. Please try again later.");
+            }
+            if (data?.message) {
+              throw new Error(data.message);
+            }
             return null;
           }
 
           return {
-            id: data.user.id,
-            name: data.user.name,
-            email: data.user.email,
-            role: data.user.role,
+            id: data.user?.id,
+            name: data.user?.name,
+            email: data.user?.email,
+            role: data.user?.role,
             accessToken: data.access_token,
           };
         } catch (error) {
           console.error("Laravel login error:", error);
-          return null;
+          if (error.message && error.message !== "Server issue") {
+            throw error;
+          }
+          throw new Error("Server error. Please try again later.");
         }
       },
     }),

@@ -105,6 +105,7 @@ export function useMotorUnderwriting(id) {
       earthamt: "",
       earthd: false,
       narration: "",
+      status: "Pending Underwriting",
     },
   });
 
@@ -169,6 +170,7 @@ export function useMotorUnderwriting(id) {
 
       reset({
         ...record,
+        status: record.status || "Pending Underwriting",
         coverage_type: covArray,
         cert_type: record.cert_type || covArray[0],
         vehicle_usage: record.vehicle_usage || record.usage || "private_use",

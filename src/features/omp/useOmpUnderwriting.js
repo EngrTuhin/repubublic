@@ -12,6 +12,9 @@ import {
 } from "./ompApi";
 
 const OMP_DEFAULTS = {
+  bill_no: "",
+  status: "Pending Underwriting",
+  mr_status: "",
   insured_name: "",
   dob: "",
   age: "",

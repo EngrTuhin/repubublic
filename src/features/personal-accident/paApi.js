@@ -3,6 +3,15 @@ import { baseApi } from "../api/baseApi";
 export const paApi = baseApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
+    getPaOccupations: builder.query({
+      query: () => ({ url: "/v1/pa-occupations", method: "GET" }),
+    }),
+    getPaTableTypes: builder.query({
+      query: () => ({ url: "/v1/pa-table-types", method: "GET" }),
+    }),
+    getPaTariffs: builder.query({
+      query: () => ({ url: "/v1/pa-tariffs", method: "GET" }),
+    }),
     getPaInsurances: builder.query({
       query: () => ({ url: "/v1/pas", method: "GET" }),
       providesTags: (result) => {
@@ -34,6 +43,9 @@ export const paApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetPaOccupationsQuery,
+  useGetPaTableTypesQuery,
+  useGetPaTariffsQuery,
   useGetPaInsurancesQuery,
   useGetPaInsuranceQuery,
   useDeletePaInsuranceMutation,
