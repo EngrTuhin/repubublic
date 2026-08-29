@@ -9,8 +9,7 @@ export const authOptions = {
   },
 
   pages: {
-    signIn: "/",
-    error: "/",
+    signIn: "/login",
   },
 
   providers: [
