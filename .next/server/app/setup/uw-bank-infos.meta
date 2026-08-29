@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(admin)/layout,_N_T_/(admin)/setup/layout,_N_T_/(admin)/setup/uw-bank-infos/layout,_N_T_/(admin)/setup/uw-bank-infos/page,_N_T_/setup/uw-bank-infos"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGFkbWluKQ/setup/uw-bank-infos/__PAGE__",
+    "/!KGFkbWluKQ/setup/uw-bank-infos",
+    "/!KGFkbWluKQ/setup",
+    "/!KGFkbWluKQ",
+    "/_index",
+    "/_head"
+  ]
+}

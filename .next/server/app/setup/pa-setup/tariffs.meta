@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(admin)/layout,_N_T_/(admin)/setup/layout,_N_T_/(admin)/setup/pa-setup/layout,_N_T_/(admin)/setup/pa-setup/tariffs/layout,_N_T_/(admin)/setup/pa-setup/tariffs/page,_N_T_/setup/pa-setup/tariffs"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGFkbWluKQ/setup/pa-setup/tariffs/__PAGE__",
+    "/!KGFkbWluKQ/setup/pa-setup/tariffs",
+    "/!KGFkbWluKQ/setup/pa-setup",
+    "/!KGFkbWluKQ/setup",
+    "/!KGFkbWluKQ",
+    "/_index",
+    "/_head"
+  ]
+}

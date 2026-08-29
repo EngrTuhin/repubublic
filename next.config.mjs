@@ -7,7 +7,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   reactCompiler: true,
-  allowedDevOrigins: ['192.168.0.24', 'localhost:3000', '192.168.0.24:3000'],
+  allowedDevOrigins: ['192.168.0.24', 'localhost:3000', '192.168.0.24:3000','https://repubublic.vercel.app'],
 };
 
 export default nextConfig;

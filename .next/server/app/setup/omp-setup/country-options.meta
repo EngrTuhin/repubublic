@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(admin)/layout,_N_T_/(admin)/setup/layout,_N_T_/(admin)/setup/omp-setup/layout,_N_T_/(admin)/setup/omp-setup/country-options/layout,_N_T_/(admin)/setup/omp-setup/country-options/page,_N_T_/setup/omp-setup/country-options"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGFkbWluKQ/setup/omp-setup/country-options/__PAGE__",
+    "/!KGFkbWluKQ/setup/omp-setup/country-options",
+    "/!KGFkbWluKQ/setup/omp-setup",
+    "/!KGFkbWluKQ/setup",
+    "/!KGFkbWluKQ",
+    "/_index",
+    "/_head"
+  ]
+}

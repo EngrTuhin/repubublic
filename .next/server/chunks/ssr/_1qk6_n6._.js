@@ -1,0 +1,3 @@
+module.exports=[445e3,a=>{"use strict";let b=(0,a.i(33208).default)("rotate-ccw",[["path",{d:"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",key:"1357e3"}],["path",{d:"M3 3v5h5",key:"1xhq8a"}]]);a.s(["default",0,b])},572276,882514,a=>{"use strict";let b=(0,a.i(33208).default)("search",[["path",{d:"m21 21-4.34-4.34",key:"14j7rj"}],["circle",{cx:"11",cy:"11",r:"8",key:"4ej97u"}]]);a.s(["default",0,b],882514),a.s(["Search",0,b],572276)},819627,a=>{"use strict";var b=a.i(445e3);a.s(["RotateCcw",()=>b.default])},563191,a=>{"use strict";var b=a.i(631722),c=a.i(210725);a.s(["default",0,function(){return(0,b.jsx)(c.default,{tab:"uw-clients"})}])}];
+
+//# sourceMappingURL=_1qk6_n6._.js.map

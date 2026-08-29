@@ -1,0 +1,17 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(admin)/layout,_N_T_/(admin)/underwriting/layout,_N_T_/(admin)/underwriting/personal-accident/layout,_N_T_/(admin)/underwriting/personal-accident/page,_N_T_/underwriting/personal-accident"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGFkbWluKQ/underwriting/personal-accident/__PAGE__",
+    "/!KGFkbWluKQ/underwriting/personal-accident",
+    "/!KGFkbWluKQ/underwriting",
+    "/!KGFkbWluKQ",
+    "/_index",
+    "/_head"
+  ]
+}

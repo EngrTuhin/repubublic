@@ -1,0 +1,3 @@
+{
+  "/(admin)/underwriting/personal-accident/[id]/page": "app/(admin)/underwriting/personal-accident/[id]/page.js"
+}

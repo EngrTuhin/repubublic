@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/(admin)/layout,_N_T_/(admin)/setup/layout,_N_T_/(admin)/setup/motor-setup/layout,_N_T_/(admin)/setup/motor-setup/tariff-types/layout,_N_T_/(admin)/setup/motor-setup/tariff-types/page,_N_T_/setup/motor-setup/tariff-types"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/!KGFkbWluKQ/setup/motor-setup/tariff-types/__PAGE__",
+    "/!KGFkbWluKQ/setup/motor-setup/tariff-types",
+    "/!KGFkbWluKQ/setup/motor-setup",
+    "/!KGFkbWluKQ/setup",
+    "/!KGFkbWluKQ",
+    "/_index",
+    "/_head"
+  ]
+}

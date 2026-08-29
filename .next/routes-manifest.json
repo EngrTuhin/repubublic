@@ -1,0 +1,292 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/claims/[id]",
+      "regex": "^/claims/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/claims/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/reports/[type]",
+      "regex": "^/reports/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPtype": "nxtPtype"
+      },
+      "namedRegex": "^/reports/(?<nxtPtype>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/underwriting/motor-vehicle/[id]",
+      "regex": "^/underwriting/motor\\-vehicle/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/underwriting/motor\\-vehicle/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/underwriting/omp/[id]",
+      "regex": "^/underwriting/omp/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/underwriting/omp/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/underwriting/personal-accident/[id]",
+      "regex": "^/underwriting/personal\\-accident/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/underwriting/personal\\-accident/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/advertisements",
+      "regex": "^/advertisements(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/advertisements(?:/)?$"
+    },
+    {
+      "page": "/claims",
+      "regex": "^/claims(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/claims(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/product-features",
+      "regex": "^/product\\-features(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/product\\-features(?:/)?$"
+    },
+    {
+      "page": "/reports",
+      "regex": "^/reports(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/reports(?:/)?$"
+    },
+    {
+      "page": "/setup/motor-certificate-types",
+      "regex": "^/setup/motor\\-certificate\\-types(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/motor\\-certificate\\-types(?:/)?$"
+    },
+    {
+      "page": "/setup/motor-setup/class-sub-types",
+      "regex": "^/setup/motor\\-setup/class\\-sub\\-types(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/motor\\-setup/class\\-sub\\-types(?:/)?$"
+    },
+    {
+      "page": "/setup/motor-setup/tariff-groups",
+      "regex": "^/setup/motor\\-setup/tariff\\-groups(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/motor\\-setup/tariff\\-groups(?:/)?$"
+    },
+    {
+      "page": "/setup/motor-setup/tariff-types",
+      "regex": "^/setup/motor\\-setup/tariff\\-types(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/motor\\-setup/tariff\\-types(?:/)?$"
+    },
+    {
+      "page": "/setup/motor-setup/tariffs",
+      "regex": "^/setup/motor\\-setup/tariffs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/motor\\-setup/tariffs(?:/)?$"
+    },
+    {
+      "page": "/setup/motor-setup/vehicle-usages",
+      "regex": "^/setup/motor\\-setup/vehicle\\-usages(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/motor\\-setup/vehicle\\-usages(?:/)?$"
+    },
+    {
+      "page": "/setup/omp-setup/age-bands",
+      "regex": "^/setup/omp\\-setup/age\\-bands(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/omp\\-setup/age\\-bands(?:/)?$"
+    },
+    {
+      "page": "/setup/omp-setup/country-options",
+      "regex": "^/setup/omp\\-setup/country\\-options(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/omp\\-setup/country\\-options(?:/)?$"
+    },
+    {
+      "page": "/setup/omp-setup/plan-options",
+      "regex": "^/setup/omp\\-setup/plan\\-options(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/omp\\-setup/plan\\-options(?:/)?$"
+    },
+    {
+      "page": "/setup/omp-setup/policy-types",
+      "regex": "^/setup/omp\\-setup/policy\\-types(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/omp\\-setup/policy\\-types(?:/)?$"
+    },
+    {
+      "page": "/setup/omp-setup/tariffs",
+      "regex": "^/setup/omp\\-setup/tariffs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/omp\\-setup/tariffs(?:/)?$"
+    },
+    {
+      "page": "/setup/pa-setup/occupations",
+      "regex": "^/setup/pa\\-setup/occupations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/pa\\-setup/occupations(?:/)?$"
+    },
+    {
+      "page": "/setup/pa-setup/table-types",
+      "regex": "^/setup/pa\\-setup/table\\-types(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/pa\\-setup/table\\-types(?:/)?$"
+    },
+    {
+      "page": "/setup/pa-setup/tariffs",
+      "regex": "^/setup/pa\\-setup/tariffs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/pa\\-setup/tariffs(?:/)?$"
+    },
+    {
+      "page": "/setup/system-settings",
+      "regex": "^/setup/system\\-settings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/system\\-settings(?:/)?$"
+    },
+    {
+      "page": "/setup/uw-bank-branches",
+      "regex": "^/setup/uw\\-bank\\-branches(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/uw\\-bank\\-branches(?:/)?$"
+    },
+    {
+      "page": "/setup/uw-bank-infos",
+      "regex": "^/setup/uw\\-bank\\-infos(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/uw\\-bank\\-infos(?:/)?$"
+    },
+    {
+      "page": "/setup/uw-clients",
+      "regex": "^/setup/uw\\-clients(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/uw\\-clients(?:/)?$"
+    },
+    {
+      "page": "/setup/uw-drivers",
+      "regex": "^/setup/uw\\-drivers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/uw\\-drivers(?:/)?$"
+    },
+    {
+      "page": "/setup/uw-limitation-uses",
+      "regex": "^/setup/uw\\-limitation\\-uses(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/uw\\-limitation\\-uses(?:/)?$"
+    },
+    {
+      "page": "/setup/uw-tarrifs",
+      "regex": "^/setup/uw\\-tarrifs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/setup/uw\\-tarrifs(?:/)?$"
+    },
+    {
+      "page": "/underwriting/motor-vehicle",
+      "regex": "^/underwriting/motor\\-vehicle(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/underwriting/motor\\-vehicle(?:/)?$"
+    },
+    {
+      "page": "/underwriting/omp",
+      "regex": "^/underwriting/omp(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/underwriting/omp(?:/)?$"
+    },
+    {
+      "page": "/underwriting/personal-accident",
+      "regex": "^/underwriting/personal\\-accident(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/underwriting/personal\\-accident(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
