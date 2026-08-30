@@ -12,6 +12,7 @@ import {
 export interface UseGlobalOptions {
   queryParams?: Record<string, any>;
   defaultValues?: Record<string, any>;
+  initialPerPage?: number;
   transformSubmitData?: (data: any, isEditing: boolean) => any;
   transformEditData?: (item: any) => any;
   onSuccess?: (type: "create" | "update" | "delete", res?: any) => void;
@@ -31,7 +32,7 @@ export function useGlobal(endpoint: string, options: UseGlobalOptions = {}) {
   // Search & Pagination State
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(20);
 
   // Combine queryParams with search & pagination for Laravel backend
   const combinedParams = useMemo(

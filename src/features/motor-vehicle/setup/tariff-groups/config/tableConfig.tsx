@@ -7,7 +7,7 @@ export const tableConfig = {
   description: "Configure tariff sub-groups linked to tariff types (e.g. Private Vehicle, Commercial Class A(1)).",
   searchPlaceholder: "Search tariff groups by name...",
   addButtonLabel: "Add Tariff Group",
-  addButtonVisibility: true,
+  addButtonVisibility: false,
   searchVisibility: true,
 
   emptyMessage: "No matching Motor Tariff Groups found in database.",

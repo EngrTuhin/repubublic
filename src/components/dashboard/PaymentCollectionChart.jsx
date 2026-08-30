@@ -102,7 +102,6 @@ export default function PaymentCollectionChart({ data }) {
                   outerRadius={90}
                   dataKey="amount"
                   nameKey="type"
-                  label={({ type, formatted }) => `${type}: ${formatted}`}
                 >
                   {paymentData.map((entry, index) => (
                     <Cell key={`pie-pay-${index}`} fill={entry.color} />
@@ -131,34 +130,6 @@ export default function PaymentCollectionChart({ data }) {
             No collection records in database yet
           </div>
         )}
-      </div>
-
-      {/* Data Table */}
-      <div className="overflow-x-auto border-t border-gray-200 pt-3">
-        <table className="w-full text-xs text-left">
-          <thead>
-            <tr className="text-gray-500 font-semibold border-b border-gray-100">
-              <th className="pb-2">Payment Type</th>
-              <th className="pb-2 text-right">Amount</th>
-              <th className="pb-2 text-right">Percentage</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 font-medium text-gray-800">
-            {paymentData.map((item) => {
-              const pct = totalAmount > 0 ? ((item.amount / totalAmount) * 100).toFixed(1) : 0;
-              return (
-                <tr key={item.type}>
-                  <td className="py-2 flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span>{item.type}</span>
-                  </td>
-                  <td className="py-2 text-right font-bold text-gray-900">{item.formatted || formatBDT(item.amount)}</td>
-                  <td className="py-2 text-right text-gray-500">{pct}%</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
       </div>
     </div>
   );

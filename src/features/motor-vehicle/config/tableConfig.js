@@ -8,7 +8,7 @@ export const tableConfig = {
   description: "Manage and track motor vehicle underwriting policies.",
   searchPlaceholder: "Search by insured name, bill no, or reg no...",
   addButtonLabel: "New Motor Policy",
-  addButtonVisibility: true,
+  addButtonVisibility: false,
   searchVisibility: true,
   emptyMessage: "No underwriting records found.",
   onClick: () => {
@@ -36,7 +36,7 @@ export const tableConfig = {
       header: "Insured Name",
       render: (row) => (
         <div className="font-semibold text-xs text-slate-700">
-          {row.cl_name || row.titlename || row.insuredName || row.clientcode || ""}
+          {row?.user?.name}
         </div>
       ),
     },

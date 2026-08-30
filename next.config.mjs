@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  // eslint: {
-  //   ignoreDuringBuilds: true,
-  // },
   reactCompiler: true,
-  allowedDevOrigins: ['192.168.0.24', 'localhost:3000', '192.168.0.24:3000','https://repubublic.vercel.app'],
+  // Optimize dev memory usage by reducing page cache duration in RAM
+  onDemandEntries: {
+    maxInactiveAge: 15 * 1000,
+    pagesBufferLength: 2,
+  },
 };
 
 export default nextConfig;

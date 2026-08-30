@@ -2,14 +2,20 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Plus, Trash2 } from "lucide-react";
-import SelectInput from "@/components/form/fields/SelectInput";
-import RichTextareaInput from "@/components/form/fields/RichTextareaInput";
-import ImageFileInput from "@/components/form/fields/ImageFileInput";
+import RawSelectInput from "@/components/form/fields/SelectInput";
+import RawTextareaInput from "@/components/form/fields/TextareaInput";
+import RawRichTextareaInput from "@/components/form/fields/RichTextareaInput";
+import RawImageFileInput from "@/components/form/fields/ImageFileInput";
+
+const SelectInput: any = RawSelectInput;
+const TextareaInput: any = RawTextareaInput;
+const RichTextareaInput: any = RawRichTextareaInput;
+const ImageFileInput: any = RawImageFileInput;
 
 export interface FormFieldConfig {
   name?: string;
   label?: string;
-  type?: "text" | "number" | "float" | "decimal" | "integer" | "select" | "textarea" | "group" | string;
+  type?: "text" | "number" | "float" | "decimal" | "integer" | "select" | "textarea" | "texteditor" | "richtext" | "wysiwyg" | "group" | string;
   title?: string;
   children?: FormFieldConfig[];
   required?: boolean;
@@ -307,7 +313,7 @@ export default function FormField({
           }}
           error={fieldError}
         />
-      ) : field.type === "richtext" || field.type === "wysiwyg" || field.type === "textarea" ? (
+      ) : field.type === "texteditor" || field.type === "richtext" || field.type === "wysiwyg" ? (
         <RichTextareaInput
           label=""
           name={fieldName}
@@ -327,6 +333,38 @@ export default function FormField({
             }
             if (form?.setValue && fieldName) {
               form.setValue(fieldName, content, { shouldValidate: true, shouldDirty: true });
+            }
+          }}
+          error={fieldError}
+        />
+      ) : field.type === "textarea" ? (
+        <TextareaInput
+          label=""
+          name={fieldName}
+          placeholder={field.placeholder}
+          readOnly={field.readOnly || field.disabled}
+          disabled={field.disabled || field.readOnly}
+          required={field.required}
+          rows={3}
+          {...(register && fieldName
+            ? register(fieldName, {
+                required: field.required,
+              })
+            : {})}
+          value={
+            fieldName && formData[fieldName] !== undefined && formData[fieldName] !== null
+              ? formData[fieldName]
+              : form?.watch && fieldName
+              ? form.watch(fieldName) || ""
+              : undefined
+          }
+          onChange={(e: any) => {
+            const val = typeof e === "string" ? e : e?.target?.value !== undefined ? e.target.value : e;
+            if (handleInputChange && fieldName) {
+              handleInputChange(fieldName, val);
+            }
+            if (form?.setValue && fieldName) {
+              form.setValue(fieldName, val, { shouldValidate: true, shouldDirty: true });
             }
           }}
           error={fieldError}

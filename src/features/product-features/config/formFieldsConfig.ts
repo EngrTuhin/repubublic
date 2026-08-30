@@ -30,7 +30,7 @@ export const formConfig = {
     {
       name: "description",
       label: "Feature Description",
-      type: "textarea",
+      type: "texteditor",
       required: true,
       rows: 5,
       placeholder: "Enter feature coverage details or benefit description...",

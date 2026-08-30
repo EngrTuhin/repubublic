@@ -52,14 +52,14 @@ export default function RenewalReminderChart({ data }) {
             Upcoming policy expirations (Total: {totalRenewals} policies)
           </p>
         </div>
-
+        {/* 
         <button
           type="button"
           onClick={() => alert("Renewal notices sent.")}
           className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded shadow-xs cursor-pointer"
         >
           Send Reminders
-        </button>
+        </button> */}
       </div>
 
       {/* Chart */}
@@ -83,40 +83,6 @@ export default function RenewalReminderChart({ data }) {
             No policies expiring in the next 30 days
           </div>
         )}
-      </div>
-
-      {/* Data Table */}
-      <div className="overflow-x-auto border-t border-gray-200 pt-3">
-        <table className="w-full text-xs text-left">
-          <thead>
-            <tr className="text-gray-500 font-semibold border-b border-gray-100">
-              <th className="pb-2">Expiry Window</th>
-              <th className="pb-2 text-center">Urgency</th>
-              <th className="pb-2 text-right">Policy Count</th>
-              <th className="pb-2 text-right">Percentage</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 font-medium text-gray-800">
-            {renewalData.map((item) => {
-              const pct = totalRenewals > 0 ? ((item.count / totalRenewals) * 100).toFixed(1) : 0;
-              return (
-                <tr key={item.window}>
-                  <td className="py-2 flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span>{item.window}</span>
-                  </td>
-                  <td className="py-2 text-center">
-                    <span className="px-2 py-0.5 text-2xs font-semibold rounded bg-gray-100 text-gray-700">
-                      {item.urgency}
-                    </span>
-                  </td>
-                  <td className="py-2 text-right font-bold text-gray-900">{item.count}</td>
-                  <td className="py-2 text-right text-gray-500">{pct}%</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
       </div>
     </div>
   );

@@ -117,7 +117,6 @@ export default function ProductPremiumChart({ data }) {
                   outerRadius={90}
                   dataKey="premium"
                   nameKey="product"
-                  label={({ product, formatted }) => `${product}: ${formatted}`}
                 >
                   {productData.map((entry, index) => (
                     <Cell key={`pie-cell-${index}`} fill={entry.color} />
@@ -131,34 +130,6 @@ export default function ProductPremiumChart({ data }) {
             No premium collection records in database yet
           </div>
         )}
-      </div>
-
-      {/* Data Table */}
-      <div className="overflow-x-auto border-t border-gray-200 pt-3">
-        <table className="w-full text-xs text-left">
-          <thead>
-            <tr className="text-gray-500 font-semibold border-b border-gray-100">
-              <th className="pb-2">Product</th>
-              <th className="pb-2 text-right">Premium</th>
-              <th className="pb-2 text-right">Percentage</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 font-medium text-gray-800">
-            {productData.map((item) => {
-              const pct = totalPremium > 0 ? ((item.premium / totalPremium) * 100).toFixed(1) : 0;
-              return (
-                <tr key={item.product}>
-                  <td className="py-2 flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span>{item.product}</span>
-                  </td>
-                  <td className="py-2 text-right font-bold text-gray-900">{item.formatted || formatBDT(item.premium)}</td>
-                  <td className="py-2 text-right text-gray-500">{pct}%</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
       </div>
     </div>
   );

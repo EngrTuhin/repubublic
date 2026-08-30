@@ -64,36 +64,42 @@ export default function DashboardPage() {
                 <option value="this_month">This Month</option>
                 <option value="this_quarter">This Quarter</option>
                 <option value="this_year">This Year (2026)</option>
+                <option value="custom">Custom Range</option>
               </select>
             </div>
 
-            {/* Start Date Input */}
-            <div className="flex items-center gap-1.5 bg-white border border-gray-300 rounded px-2 py-1">
-              <span className="text-gray-500 font-semibold">Start:</span>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => {
-                  setStartDate(e.target.value);
-                  setPeriod("custom");
-                }}
-                className="bg-transparent text-gray-800 font-medium outline-none cursor-pointer"
-              />
-            </div>
+            {/* Show Start and End Date inputs when Custom is selected */}
+            {period === "custom" && (
+              <>
+                {/* Start Date Input */}
+                <div className="flex items-center gap-1.5 bg-white border border-gray-300 rounded px-2 py-1">
+                  <span className="text-gray-500 font-semibold">Start:</span>
+                  <input
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => {
+                      setStartDate(e.target.value);
+                      setPeriod("custom");
+                    }}
+                    className="bg-transparent text-gray-800 font-medium outline-none cursor-pointer"
+                  />
+                </div>
 
-            {/* End Date Input */}
-            <div className="flex items-center gap-1.5 bg-white border border-gray-300 rounded px-2 py-1">
-              <span className="text-gray-500 font-semibold">End:</span>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => {
-                  setEndDate(e.target.value);
-                  setPeriod("custom");
-                }}
-                className="bg-transparent text-gray-800 font-medium outline-none cursor-pointer"
-              />
-            </div>
+                {/* End Date Input */}
+                <div className="flex items-center gap-1.5 bg-white border border-gray-300 rounded px-2 py-1">
+                  <span className="text-gray-500 font-semibold">End:</span>
+                  <input
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => {
+                      setEndDate(e.target.value);
+                      setPeriod("custom");
+                    }}
+                    className="bg-transparent text-gray-800 font-medium outline-none cursor-pointer"
+                  />
+                </div>
+              </>
+            )}
 
             {/* Reset Button (If filters active) */}
             {(startDate || endDate || period !== "all") && (

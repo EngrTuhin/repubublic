@@ -103,7 +103,6 @@ export default function ProposalStatusChart({ data }) {
                   cy="50%"
                   outerRadius={90}
                   dataKey="count"
-                  label={({ name, count }) => `${name}: ${count}`}
                 >
                   {proposalStatusData.map((entry, index) => (
                     <Cell key={`pie-cell-${index}`} fill={entry.color} />
@@ -129,34 +128,6 @@ export default function ProposalStatusChart({ data }) {
             No proposal records in database yet
           </div>
         )}
-      </div>
-
-      {/* Data Table */}
-      <div className="overflow-x-auto border-t border-gray-200 pt-3">
-        <table className="w-full text-xs text-left">
-          <thead>
-            <tr className="text-gray-500 font-semibold border-b border-gray-100">
-              <th className="pb-2">Status</th>
-              <th className="pb-2 text-right">Count</th>
-              <th className="pb-2 text-right">Percentage</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 font-medium text-gray-800">
-            {proposalStatusData.map((item) => {
-              const pct = totalProposals > 0 ? ((item.count / totalProposals) * 100).toFixed(1) : 0;
-              return (
-                <tr key={item.name}>
-                  <td className="py-2 flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span>{item.name}</span>
-                  </td>
-                  <td className="py-2 text-right font-bold">{item.count}</td>
-                  <td className="py-2 text-right text-gray-500">{pct}%</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
       </div>
     </div>
   );

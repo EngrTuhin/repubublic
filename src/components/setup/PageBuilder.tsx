@@ -43,7 +43,7 @@ export default function PageBuilder(props: PageBuilderProps) {
     setSearchTerm,
     page = 1,
     setPage,
-    perPage = 10,
+    perPage = 20,
     setPerPage,
     isModalOpen = false,
     editingItem = ctx.editingBand || ctx.editingItem,
@@ -232,14 +232,15 @@ export default function PageBuilder(props: PageBuilderProps) {
       {/* Compact Data Table Driven By Config & State */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden">
         <div className="overflow-x-auto max-h-[calc(100vh-230px)]">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse min-w-max">
             <thead className="sticky top-0 z-10">
               <tr className="bg-slate-100 border-b border-slate-200 text-slate-800">
                 {tableConfig.columns.map((col) => (
                   <th
                     key={col.key}
-                    className={`px-3 py-2 text-[10px] font-black uppercase tracking-wider ${col.key === "actions" ? "text-right" : ""
-                      }`}
+                    className={`px-3 py-2 text-[10px] font-black uppercase tracking-wider whitespace-nowrap ${
+                      col.key === "actions" ? "text-right" : ""
+                    }`}
                   >
                     {col.header}
                   </th>
@@ -249,7 +250,7 @@ export default function PageBuilder(props: PageBuilderProps) {
             <tbody className="divide-y divide-slate-200/70">
               {loading && displayItems.length === 0 ? (
                 <tr>
-                  <td colSpan={tableConfig.columns.length} className="px-3 py-8 text-center text-xs font-bold text-slate-500">
+                  <td colSpan={tableConfig.columns.length} className="px-3 py-8 text-center text-xs font-bold text-slate-500 whitespace-nowrap">
                     <div className="flex items-center justify-center gap-2">
                       <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
                       Loading records from database...
@@ -258,7 +259,7 @@ export default function PageBuilder(props: PageBuilderProps) {
                 </tr>
               ) : displayItems.length === 0 ? (
                 <tr>
-                  <td colSpan={tableConfig.columns.length} className="px-3 py-8 text-center text-xs font-bold text-slate-600">
+                  <td colSpan={tableConfig.columns.length} className="px-3 py-8 text-center text-xs font-bold text-slate-600 whitespace-nowrap">
                     {tableConfig.emptyMessage}
                   </td>
                 </tr>
@@ -271,8 +272,9 @@ export default function PageBuilder(props: PageBuilderProps) {
                     {tableConfig.columns.map((col) => (
                       <td
                         key={col.key}
-                        className={`px-3 py-1.5 ${col.key === "actions" ? "text-right" : ""
-                          }`}
+                        className={`px-3 py-1.5 whitespace-nowrap ${
+                          col.key === "actions" ? "text-right" : ""
+                        }`}
                       >
                         {renderCellContent(col, item)}
                       </td>

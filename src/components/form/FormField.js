@@ -133,9 +133,9 @@ export default function FormField({
       );
       break;
 
+    case "texteditor":
     case "richtext":
     case "wysiwyg":
-    case "textarea":
       const richTextValue = typeof watch === "function" ? watch(name) : (field.defaultValue || "");
       inputContent = (
         <RichTextareaInput
@@ -148,6 +148,29 @@ export default function FormField({
           onChange={(content) => {
             if (hookData?.setValue) {
               hookData.setValue(name, content, { shouldValidate: true, shouldDirty: true });
+            }
+          }}
+          error={errors[name]}
+          {...props}
+        />
+      );
+      break;
+
+    case "textarea":
+      const textareaValue = typeof watch === "function" ? watch(name) : (field.defaultValue || "");
+      inputContent = (
+        <TextareaInput
+          {...(register ? register(name, validationRules) : {})}
+          label={label}
+          name={name}
+          placeholder={placeholder}
+          readOnly={readOnly}
+          required={required}
+          value={textareaValue}
+          onChange={(e) => {
+            const val = typeof e === "string" ? e : e?.target?.value !== undefined ? e.target.value : e;
+            if (hookData?.setValue) {
+              hookData.setValue(name, val, { shouldValidate: true, shouldDirty: true });
             }
           }}
           error={errors[name]}

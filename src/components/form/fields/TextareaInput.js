@@ -9,8 +9,10 @@ const TextareaInput = forwardRef(
       error,
       className,
       placeholder,
-      rows = 4,
+      rows = 3,
       required = false,
+      readOnly = false,
+      disabled = false,
       ...props
     },
     ref
@@ -20,28 +22,33 @@ const TextareaInput = forwardRef(
         {label && (
           <label
             htmlFor={name}
-            className="block text-xs font-bold text-slate-700 mb-1 select-none"
+            className="block text-[11px] font-black uppercase tracking-wider text-slate-700 mb-1 select-none"
           >
             {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
+            {required && <span className="text-rose-500 font-extrabold ml-1">*</span>}
           </label>
         )}
         <textarea
           id={name}
           name={name}
           ref={ref}
-          rows={rows === 4 ? 2 : rows} // Default to 2 rows instead of 4 to save vertical space
+          rows={rows}
           placeholder={placeholder}
+          readOnly={readOnly}
+          disabled={disabled || readOnly}
           className={cn(
-            "w-full rounded-lg border px-2.5 py-1.5 text-xs text-gray-900 outline-none transition bg-white",
+            "w-full rounded-xl border px-3 py-2 text-xs font-bold text-slate-900 outline-none transition bg-slate-50/40 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100/70 placeholder:text-slate-400 placeholder:font-normal resize-y",
             error
-              ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-100"
-              : "border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              ? "border-rose-400 bg-rose-50/30 focus:border-rose-600 focus:ring-4 focus:ring-rose-100"
+              : "border-slate-300"
           )}
           {...props}
         />
         {error && (
-          <p className="mt-1.5 text-xs text-red-600">{error.message || error}</p>
+          <p className="mt-1 text-[10px] font-extrabold text-rose-600 flex items-center gap-1">
+            <span>•</span>
+            <span>{typeof error === "string" ? error : error.message}</span>
+          </p>
         )}
       </div>
     );

@@ -27,7 +27,7 @@ export interface TablePaginationProps {
 export default function TablePagination({
   page: passedPage = 1,
   setPage,
-  perPage: passedPerPage = 10,
+  perPage: passedPerPage = 20,
   setPerPage,
   totalItems: passedTotalItems,
   totalPages: passedTotalPages,

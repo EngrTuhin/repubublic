@@ -81,8 +81,8 @@ export const tableConfig = {
           status === "Approved" || status === "Paid" || status === "Confirmed"
             ? "success"
             : status === "Rejected"
-            ? "danger"
-            : "warning";
+              ? "danger"
+              : "warning";
         return <Badge variant={variant}>{status}</Badge>;
       },
     },

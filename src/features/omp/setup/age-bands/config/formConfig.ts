@@ -78,4 +78,4 @@ export const formFieldsConfig = [
   },
 ];
 
-
+export const ageBandsConfig = formFieldsConfig;
