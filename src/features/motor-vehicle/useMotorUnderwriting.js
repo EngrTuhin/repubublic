@@ -41,6 +41,7 @@ export function useMotorUnderwriting(id) {
       cert_type: "",
       class_sub_type: "",
       reg_mark: "",
+      previous_insurance_no: "",
       engno: "",
       chessisno: "",
       make: "",

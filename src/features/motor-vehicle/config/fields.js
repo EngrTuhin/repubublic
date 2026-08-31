@@ -142,6 +142,13 @@ export const motorUnderwritingLayoutConfig = {
               colSpan: "col-span-12 md:col-span-6",
             },
             {
+              name: "previous_insurance_no",
+              label: "Previous Insurance Number",
+              type: "text",
+              placeholder: "Enter previous policy/cover note no...",
+              colSpan: "col-span-12 md:col-span-6",
+            },
+            {
               name: "engno",
               label: "Engine Number",
               type: "text",
