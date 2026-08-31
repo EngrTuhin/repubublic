@@ -84,8 +84,8 @@ export default function AdminHeader() {
       {/* Right side: Search, Company Badge & Profile Actions */}
       <div className="flex items-center gap-3 md:gap-4">
         {/* Company Identity Pill in Topbar */}
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl shadow-2xs">
-          {/* {companyLogo ? (
+        {/* <div className="hidden lg:flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-200 rounded-xl shadow-2xs"> */}
+        {/* {companyLogo ? (
             <img
               src={companyLogo}
               alt="Company Logo"
@@ -94,10 +94,10 @@ export default function AdminHeader() {
           ) : (
             <Building2 className="w-4 h-4 text-blue-600" />
           )} */}
-          {/* <span className="text-xs font-bold text-slate-800 truncate max-w-[180px]">
+        {/* <span className="text-xs font-bold text-slate-800 truncate max-w-[180px]">
             {companyName}
           </span> */}
-        </div>
+        {/* </div> */}
 
         {/* Search Input */}
         {/* <div className="relative hidden md:block group">
@@ -119,7 +119,7 @@ export default function AdminHeader() {
         </button> */}
 
         {/* User Info / Profile Badge */}
-        {state.currentUser && (
+        {/* {state.currentUser && (
           <div className="flex items-center gap-3 pl-3 md:pl-4 border-l border-slate-200/80">
             <div className="text-right hidden sm:block">
               <p className="text-xs font-semibold text-slate-950">
@@ -128,14 +128,14 @@ export default function AdminHeader() {
               <div className="mt-0.5">
                 <RoleBadge role={state.currentUser.role} />
               </div>
-            </div>
+            </div> */}
 
-            {/* Animated avatar */}
-            <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-xl flex items-center justify-center text-xs font-bold shadow-md shadow-blue-500/10 ring-2 ring-white hover:scale-105 transition-all duration-300 cursor-pointer">
+        {/* Animated avatar */}
+        {/* <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-xl flex items-center justify-center text-xs font-bold shadow-md shadow-blue-500/10 ring-2 ring-white hover:scale-105 transition-all duration-300 cursor-pointer">
               {getInitials(state.currentUser.name)}
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </header>
   );

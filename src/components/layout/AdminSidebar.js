@@ -252,11 +252,10 @@ export default function AdminSidebar() {
             const itemButtonContent = (
               <>
                 <span
-                  className={`transition-transform duration-200 ${
-                    isSelected
+                  className={`transition-transform duration-200 ${isSelected
                       ? "scale-105 text-white"
                       : "text-slate-300 group-hover:scale-110 group-hover:text-white"
-                  }`}
+                    }`}
                 >
                   <ConfigIcon name={item.icon} className="w-4 h-4" />
                 </span>
@@ -280,10 +279,9 @@ export default function AdminSidebar() {
                   <button
                     onClick={() => toggleItem(item.id)}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 group cursor-pointer
-                      ${
-                        isSelected
-                          ? "bg-slate-800 text-white shadow-sm ring-1 ring-slate-700/50"
-                          : "text-slate-200 hover:text-white hover:bg-slate-800/60"
+                      ${isSelected
+                        ? "bg-slate-800 text-white shadow-sm ring-1 ring-slate-700/50"
+                        : "text-slate-200 hover:text-white hover:bg-slate-800/60"
                       }
                     `}
                   >
@@ -294,10 +292,9 @@ export default function AdminSidebar() {
                     href={item.href}
                     onClick={closeSidebar}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold tracking-wide transition-all duration-200 group relative
-                      ${
-                        isSelected
-                          ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25 font-bold"
-                          : "text-slate-200 hover:text-white hover:bg-slate-800/60"
+                      ${isSelected
+                        ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25 font-bold"
+                        : "text-slate-200 hover:text-white hover:bg-slate-800/60"
                       }
                     `}
                   >
@@ -343,10 +340,9 @@ export default function AdminSidebar() {
                               <button
                                 onClick={() => toggleItem(child.id)}
                                 className={`w-full flex items-center px-3 py-2 rounded-lg text-[12px] font-medium tracking-wide transition-all duration-200 group cursor-pointer
-                                  ${
-                                    childSelected
-                                      ? "text-white bg-slate-800/80 font-semibold"
-                                      : "text-slate-300 hover:text-white hover:bg-slate-800/40"
+                                  ${childSelected
+                                    ? "text-white bg-slate-800/80 font-semibold"
+                                    : "text-slate-300 hover:text-white hover:bg-slate-800/40"
                                   }
                                 `}
                               >
@@ -357,10 +353,9 @@ export default function AdminSidebar() {
                                 href={child.href}
                                 onClick={closeSidebar}
                                 className={`w-full flex items-center px-3 py-2 rounded-lg text-[12px] font-medium tracking-wide transition-all duration-200 group relative
-                                  ${
-                                    childSelected
-                                      ? "text-blue-400 font-bold bg-blue-500/15 border-l-2 border-blue-500"
-                                      : "text-slate-300 hover:text-white hover:bg-slate-800/40"
+                                  ${childSelected
+                                    ? "text-blue-400 font-bold bg-blue-500/15 border-l-2 border-blue-500"
+                                    : "text-slate-300 hover:text-white hover:bg-slate-800/40"
                                   }
                                 `}
                               >
@@ -382,11 +377,10 @@ export default function AdminSidebar() {
                                         href={grandchild.href}
                                         onClick={closeSidebar}
                                         className={`w-full flex items-center px-3 py-1.5 rounded-md text-[11px] font-medium tracking-wide transition-all duration-150 group relative
-                                        ${
-                                          grandchildSelected
+                                        ${grandchildSelected
                                             ? "text-blue-400 font-bold bg-blue-500/10"
                                             : "text-slate-300 hover:text-white hover:bg-slate-800/30"
-                                        }
+                                          }
                                       `}
                                       >
                                         <span>{grandchild.label}</span>
@@ -430,14 +424,14 @@ export default function AdminSidebar() {
             </div>
           )}
           <div className="flex gap-2">
-            <Link
+            {/* <Link
               href="/settings"
               onClick={closeSidebar}
               className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 rounded-xl transition-all duration-200"
             >
               <SettingsIcon className="w-3.5 h-3.5" />
               Settings
-            </Link>
+            </Link> */}
             <button
               onClick={() => {
                 closeSidebar();
