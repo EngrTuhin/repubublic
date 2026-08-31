@@ -25,6 +25,8 @@ export const motorUnderwritingLayoutConfig = {
               isSearchable: true,
               colSpan: "col-span-12 md:col-span-4",
               required: true,
+              valueKey: "description",
+              labelKey: "description",
             },
             {
               name: "cert_type",
@@ -65,6 +67,33 @@ export const motorUnderwritingLayoutConfig = {
               labelKey: "name",
               colSpan: "col-span-12 md:col-span-6",
               required: true,
+              onChange: (opt, setValue, getValues) => {
+                const vehicleName = opt?.label || opt?.raw?.name || "";
+                const usage = getValues ? getValues("motor_vehicle_usage_id") : "";
+                const vLower = String(vehicleName).toLowerCase();
+                const uLower = String(usage).toLowerCase();
+                let autoCerType = "Private Vehicle";
+                if (vLower.includes("motorcycle") || vLower.includes("scooter")) {
+                  autoCerType = "Motorcycle";
+                } else if (
+                  vLower.includes("commercial") ||
+                  vLower.includes("bus") ||
+                  vLower.includes("truck") ||
+                  vLower.includes("lorry") ||
+                  vLower.includes("covered van") ||
+                  vLower.includes("tanker") ||
+                  vLower.includes("trailer") ||
+                  vLower.includes("taxi") ||
+                  vLower.includes("rent-a-car") ||
+                  vLower.includes("cng") ||
+                  vLower.includes("rickshaw") ||
+                  uLower === "2" ||
+                  uLower.includes("commercial")
+                ) {
+                  autoCerType = "Commercial Vehicle";
+                }
+                if (setValue) setValue("motor_cer_type", autoCerType);
+              },
             },
             {
               name: "motor_vehicle_usage_id",
@@ -77,6 +106,33 @@ export const motorUnderwritingLayoutConfig = {
               labelKey: "name",
               colSpan: "col-span-12 md:col-span-6",
               required: true,
+              onChange: (opt, setValue, getValues) => {
+                const usageName = opt?.label || opt?.raw?.name || opt?.value || "";
+                const vehicleName = getValues ? getValues("motor_class_sub_type_id") : "";
+                const vLower = String(vehicleName).toLowerCase();
+                const uLower = String(usageName).toLowerCase();
+                let autoCerType = "Private Vehicle";
+                if (vLower.includes("motorcycle") || vLower.includes("scooter")) {
+                  autoCerType = "Motorcycle";
+                } else if (
+                  vLower.includes("commercial") ||
+                  vLower.includes("bus") ||
+                  vLower.includes("truck") ||
+                  vLower.includes("lorry") ||
+                  vLower.includes("covered van") ||
+                  vLower.includes("tanker") ||
+                  vLower.includes("trailer") ||
+                  vLower.includes("taxi") ||
+                  vLower.includes("rent-a-car") ||
+                  vLower.includes("cng") ||
+                  vLower.includes("rickshaw") ||
+                  uLower === "2" ||
+                  uLower.includes("commercial")
+                ) {
+                  autoCerType = "Commercial Vehicle";
+                }
+                if (setValue) setValue("motor_cer_type", autoCerType);
+              },
             },
             {
               name: "reg_mark",

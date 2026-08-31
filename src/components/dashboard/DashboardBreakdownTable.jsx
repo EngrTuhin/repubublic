@@ -45,13 +45,11 @@ export default function DashboardBreakdownTable({ proposals }) {
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3 py-1 text-xs font-medium border-y border-r border-gray-300 ${
-                idx === 0 ? "border-l rounded-l-md" : ""
-              } ${idx === arr.length - 1 ? "rounded-r-md" : ""} ${
-                activeTab === tab.id
+              className={`px-3 py-1 text-xs font-medium border-y border-r border-gray-300 ${idx === 0 ? "border-l rounded-l-md" : ""
+                } ${idx === arr.length - 1 ? "rounded-r-md" : ""} ${activeTab === tab.id
                   ? "bg-gray-200 text-gray-900 font-bold"
                   : "bg-white text-gray-700 hover:bg-gray-50"
-              }`}
+                }`}
             >
               {tab.label}
             </button>

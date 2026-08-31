@@ -66,9 +66,9 @@ export default function PaymentCollectionChart({ data }) {
           <button
             type="button"
             onClick={() => setChartType("pie")}
-            className={`px-3 py-1 text-xs font-medium border border-gray-300 rounded-l-md ${
+            className={`px-3 py-1 text-xs font-medium border border-gray-300 rounded-l-md cursor-pointer ${
               chartType === "pie"
-                ? "bg-gray-100 text-gray-900"
+                ? "bg-gray-100 text-gray-900 font-bold"
                 : "bg-white text-gray-700 hover:bg-gray-50"
             }`}
           >
@@ -77,9 +77,9 @@ export default function PaymentCollectionChart({ data }) {
           <button
             type="button"
             onClick={() => setChartType("bar")}
-            className={`px-3 py-1 text-xs font-medium border-t border-b border-r border-gray-300 rounded-r-md ${
+            className={`px-3 py-1 text-xs font-medium border-t border-b border-r border-gray-300 rounded-r-md cursor-pointer ${
               chartType === "bar"
-                ? "bg-gray-100 text-gray-900"
+                ? "bg-gray-100 text-gray-900 font-bold"
                 : "bg-white text-gray-700 hover:bg-gray-50"
             }`}
           >
@@ -131,6 +131,27 @@ export default function PaymentCollectionChart({ data }) {
           </div>
         )}
       </div>
+
+      {/* Text Information Legend Grid */}
+      {totalAmount > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 border-t border-slate-100">
+          {paymentData.map((item, idx) => {
+            const share = totalAmount > 0 ? ((item.amount / totalAmount) * 100).toFixed(1) : "0.0";
+            return (
+              <div key={idx} className="bg-slate-50 p-2.5 rounded-lg border border-slate-100 flex flex-col justify-between">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                  <span className="text-[11px] font-medium text-slate-700 truncate" title={item.type}>{item.type}</span>
+                </div>
+                <div className="flex items-baseline justify-between gap-1">
+                  <span className="text-xs font-extrabold text-slate-900">{formatBDT(item.amount)}</span>
+                  <span className="text-[10px] font-bold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">{share}%</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

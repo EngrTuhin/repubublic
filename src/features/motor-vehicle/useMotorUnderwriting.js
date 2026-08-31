@@ -273,7 +273,7 @@ export function useMotorUnderwriting(id) {
     ...formMethods,
     errors: formMethods.formState.errors, // Kept for backwards compatibility if needed, or FormBuilder can use formMethods.formState.errors
     onSubmit,
-    handleSearchBill: () => {},
+    handleSearchBill: () => { },
     getOptionsForField: (field) => field.options,
   };
 }

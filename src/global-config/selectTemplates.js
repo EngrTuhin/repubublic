@@ -40,8 +40,8 @@ export const commonTemplate = commonSelectTemplate;
 export const motorCertificateTypeTemplate = (res) => {
   if (!Array.isArray(res)) return [];
   return res.map((item) => ({
-    label: `${item?.description ?? ""} (${item?.name ?? ""})`,
-    value: String(item?.name ?? ""),
+    label: `${item?.description ?? item?.name ?? ""} (${item?.name ?? ""})`,
+    value: String(item?.description ?? item?.name ?? ""),
     raw: item,
   }));
 };
