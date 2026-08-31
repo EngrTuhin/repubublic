@@ -19,6 +19,11 @@ export function useMotorUnderwriting(id) {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Always reset activeTab to the first tab (general) when opening/loading form
+  useEffect(() => {
+    setActiveTab("general");
+  }, [id]);
+
   const formMethods = useForm({
     defaultValues: {
       bill_no: "00022",
@@ -194,11 +199,55 @@ export function useMotorUnderwriting(id) {
     setSaveSuccess(false);
     try {
       console.log("Submitting underwriting:", data);
+      let resObj;
       if (isEditMode) {
-        await updateMotorUnderwriting({ id, data }).unwrap();
+        resObj = await updateMotorUnderwriting({ id, data }).unwrap();
       } else {
-        await createMotorUnderwriting(data).unwrap();
+        resObj = await createMotorUnderwriting(data).unwrap();
       }
+
+      const policyRecord = resObj?.data ?? resObj;
+      if (policyRecord && policyRecord.id) {
+        const apiBase = (process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://127.0.0.1:8000/api").replace(/\/+$/, "");
+        const token = typeof window !== "undefined" ? (localStorage.getItem("auth_token") || localStorage.getItem("token") || sessionStorage.getItem("token") || "") : "";
+
+        const docFields = ["registration_doc", "tax_exemption_doc"];
+        for (const docKey of docFields) {
+          const fileVal = data[docKey];
+          let fileObj = null;
+
+          if (typeof File !== "undefined" && fileVal instanceof File) {
+            fileObj = fileVal;
+          } else if (typeof FileList !== "undefined" && fileVal instanceof FileList && fileVal.length > 0) {
+            fileObj = fileVal[0];
+          } else if (fileVal && typeof fileVal === "object" && fileVal.file) {
+            fileObj = fileVal.file;
+          }
+
+          if (fileObj) {
+            const formData = new FormData();
+            formData.append("documentable_type", "PremBill");
+            formData.append("documentable_id", String(policyRecord.id));
+            formData.append("title", docKey);
+            formData.append("file", fileObj);
+
+            const headers = { Accept: "application/json" };
+            if (token) headers["Authorization"] = `Bearer ${token}`;
+
+            try {
+              const uploadRes = await fetch(`${apiBase}/v1/documents`, {
+                method: "POST",
+                headers,
+                body: formData,
+              });
+              console.log(`[Web Document Upload] ${docKey}:`, await uploadRes.json());
+            } catch (err) {
+              console.warn(`[Web Document Upload Error] ${docKey}:`, err);
+            }
+          }
+        }
+      }
+
       setSaveSuccess(true);
       setTimeout(() => {
         setSaveSuccess(false);

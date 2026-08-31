@@ -34,6 +34,23 @@ export const fieldsConfig = {
         },
       ],
     },
+
+    {
+      id: "documents",
+      label: "Documents Verification",
+      icon: "FileCheck",
+      sections: [
+        {
+          id: "documents_management",
+          title: "Attached Claim Documents",
+          class: "col-span-12",
+          customComponent: "DocumentSection",
+          documentableType: "Claim",
+          addDocoment: true,
+        },
+      ],
+    },
+
     {
       id: "underwriting_decision",
       label: "Settlement & Underwriting",
@@ -49,7 +66,7 @@ export const fieldsConfig = {
               label: "Claim Status",
               type: "select",
               required: true,
-              colSpan: "col-span-12 md:col-span-6",
+              colSpan: "col-span-12",
               options: [
                 { value: "Pending Review", label: "Pending Review" },
                 { value: "In Inspection", label: "In Inspection" },
@@ -58,25 +75,8 @@ export const fieldsConfig = {
                 { value: "Rejected", label: "Rejected" },
               ],
             },
-            { name: "estimated_amount", label: "Estimated Loss Amount (BDT)", type: "number", colSpan: "col-span-12 md:col-span-6" },
-            { name: "approved_amount", label: "Approved Settlement Amount (BDT)", type: "number", colSpan: "col-span-12 md:col-span-6" },
             { name: "remarks", label: "Underwriter / Inspector Remarks", type: "textarea", colSpan: "col-span-12" },
           ],
-        },
-      ],
-    },
-    {
-      id: "documents",
-      label: "Documents Verification",
-      icon: "FileCheck",
-      sections: [
-        {
-          id: "documents_management",
-          title: "Attached Claim Documents",
-          class: "col-span-12",
-          customComponent: "DocumentSection",
-          documentableType: "Claim",
-          addDocoment: true,
         },
       ],
     },

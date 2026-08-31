@@ -20,9 +20,21 @@ const PA_DEFAULTS = {
   edate: "",
   insamt: "500000",
   totprem: "",
+  stamp_charge: "",
   vat: "",
   total: "",
 };
+
+// Calculate Personal Accident Stamp Duty
+function calculatePaStampDuty(sumInsured) {
+  const amt = Math.max(0, Number(sumInsured) || 0);
+  if (amt <= 0) return 0;
+  if (amt <= 25000) return 20;
+
+  const excessAmount = amt - 25000;
+  const additionalTiers = Math.ceil(excessAmount / 5000);
+  return 20 + (additionalTiers * 20);
+}
 
 // Fallback rate per 10,000 BDT
 const FALLBACK_RATES = {
@@ -93,12 +105,14 @@ export function usePaUnderwriting(id) {
 
     if (ratePer10k > 0) {
       const basePrem = (sumInsured / 10000) * ratePer10k;
+      const stampCharge = calculatePaStampDuty(sumInsured);
       const vatVal = basePrem * 0.15;
-      const totalVal = basePrem + vatVal;
+      const totalVal = Math.ceil(basePrem + vatVal + stampCharge);
 
       setValue("totprem", basePrem.toFixed(2));
+      setValue("stamp_charge", stampCharge.toFixed(2));
       setValue("vat", vatVal.toFixed(2));
-      setValue("total", totalVal.toFixed(2));
+      setValue("total", totalVal.toString());
     }
   }, [watchedInsamt, watchedRiskClass, watchedTableType, occupations, tariffs, setValue]);
 

@@ -84,10 +84,15 @@ export const calculateMotorPremium = (setValue, getValues, raw = null) => {
   setValue("less_excl", lessExclPerils > 0 ? lessExclPerils.toFixed(2) : "");
 
   // 4. Annual Premium (ODP side)
+  const hasTracker = !!(getValues("has_tracker") || getValues("has_vts") || getValues("tracker"));
+  const rawOdTotal = basicAmount + odpPercentageAmount;
+  const trackerDiscount = hasTracker ? rawOdTotal * 0.20 : 0;
+  const discountedOdTotal = rawOdTotal - trackerDiscount;
+
   const avtsAmount = getNum("avtsamt");
   let annualPremium = 0;
   if (basicAmount > 0 || odpPercentageAmount > 0) {
-    annualPremium = basicAmount + odpPercentageAmount + lessExclPerils + avtsAmount;
+    annualPremium = discountedOdTotal + lessExclPerils + avtsAmount;
     setValue("totprem", annualPremium.toFixed(2));
     setValue("loadtextper", annualPremium.toFixed(2));
   } else {
@@ -169,10 +174,11 @@ export const calculateMotorPremium = (setValue, getValues, raw = null) => {
     if (addVat) {
       const vat = netPremium * 0.15;
       setValue("vat", vat.toFixed(2));
-      setValue("total", (netPremium + vat).toFixed(2));
+      const grandTotal = Math.ceil(netPremium + vat);
+      setValue("total", grandTotal.toString());
     } else {
       setValue("vat", "0.00");
-      setValue("total", netPremium.toFixed(2));
+      setValue("total", Math.ceil(netPremium).toString());
     }
   } else {
     setValue("vat", "0.00");

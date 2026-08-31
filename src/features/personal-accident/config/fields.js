@@ -66,6 +66,7 @@ export const paUnderwritingLayoutConfig = {
           fields: [
             { name: "insamt", label: "Sum Insured (BDT)", type: "text", required: true, placeholder: "e.g. 500000", colSpan: "col-span-12 md:col-span-6" },
             { name: "totprem", label: "Base Premium (BDT)", type: "text", readOnly: true, colSpan: "col-span-12 md:col-span-6" },
+            { name: "stamp_charge", label: "Stamp Duty / Charge (BDT)", type: "text", readOnly: true, colSpan: "col-span-12 md:col-span-6" },
             { name: "vat", label: "VAT 15% (BDT)", type: "text", readOnly: true, colSpan: "col-span-12 md:col-span-6" },
             { name: "total", label: "Total Gross Premium (BDT)", type: "text", readOnly: true, colSpan: "col-span-12 md:col-span-6" },
           ],

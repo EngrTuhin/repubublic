@@ -27,10 +27,7 @@ export const tableConfig = {
     { key: "claim_no", header: "Claim No", label: "Claim No" },
     { key: "insured_name", header: "Insured Name", label: "Insured Name" },
     { key: "product_type", header: "Product", label: "Product", render: (row) => String(row.product_type || "").toUpperCase() },
-    { key: "mobile", header: "Mobile", label: "Mobile" },
     { key: "incident_date", header: "Incident Date", label: "Incident Date" },
-    { key: "estimated_amount", header: "Estimated Amount", label: "Estimated Amount", render: (row) => `BDT ${(parseFloat(row.estimated_amount) || 0).toLocaleString()}` },
-    { key: "approved_amount", header: "Approved Amount", label: "Approved Amount", render: (row) => `BDT ${(parseFloat(row.approved_amount) || 0).toLocaleString()}` },
     {
       key: "status",
       header: "Status",

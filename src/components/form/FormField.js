@@ -41,7 +41,16 @@ export default function FormField({
     return null;
   }
 
-  // 1. Check showIf conditions
+  // 1. Check visibility condition
+  if (field.visibility && typeof watch === "function") {
+    if (typeof field.visibility === "function") {
+      if (!field.visibility(watch)) return null;
+    } else if (!field.visibility) {
+      return null;
+    }
+  }
+
+  // 2. Check showIf conditions
   if (showIf && typeof watch === "function") {
     const parentValue = watch(showIf.field);
     if (parentValue !== showIf.value) {
