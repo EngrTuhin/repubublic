@@ -130,6 +130,11 @@ export const menuConfig = [
             label: "Tariffs",
             href: "/setup/omp-setup/tariffs",
           },
+          {
+            id: "omp-claim-form",
+            label: "Claim Form",
+            href: "/setup/omp-setup/claim-form",
+          },
         ],
       },
       {
