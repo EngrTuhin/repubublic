@@ -1,7 +1,7 @@
 import React from "react";
 import TableActions from "@/components/ui/TableActions";
 import Badge from "@/components/ui/Badge";
-import { Edit2, Trash2, Award } from "lucide-react";
+import { Edit2, Trash2, Award, Eye } from "lucide-react";
 
 export const tableConfig = {
   title: "Motor Underwriting",
@@ -110,7 +110,7 @@ export const tableConfig = {
               icon: Award,
               title: "Generate Insurance Certificate PDF",
               onClick: (r) => {
-                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://127.0.0.1:8000/api";
+                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
                 const typeLower = String(r?.class_sub_type || r?.cert_type || "").toLowerCase();
                 let type = "PV";
                 if (typeLower.includes("commercial") || typeLower.includes("cv") || typeLower.includes("tanker") || typeLower.includes("truck")) {
@@ -124,6 +124,23 @@ export const tableConfig = {
                 const s = String(r?.status || r?.payment_status || r?.mr_status || "").toLowerCase();
                 return s === "paid";
               },
+            },
+            {
+              key: "preview",
+              icon: Eye,
+              title: "Preview PDF Document",
+              onClick: (r) => {
+                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
+                const typeLower = String(r?.class_sub_type || r?.cert_type || "").toLowerCase();
+                let type = "PV";
+                if (typeLower.includes("commercial") || typeLower.includes("cv") || typeLower.includes("tanker") || typeLower.includes("truck")) {
+                  type = "CV";
+                } else if (typeLower.includes("cycle") || typeLower.includes("mc") || typeLower.includes("bike")) {
+                  type = "MC";
+                }
+                window.open(`${apiBase}/v1/motorinsurances/${r.id}/preview?type=${type}`, "_blank");
+              },
+              show: () => true,
             },
             {
               key: "edit",

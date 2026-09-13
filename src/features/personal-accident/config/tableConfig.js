@@ -1,7 +1,7 @@
 import React from "react";
 import Badge from "@/components/ui/Badge";
 import TableActions from "@/components/ui/TableActions";
-import { Edit2, Trash2, Award } from "lucide-react";
+import { Edit2, Trash2, Award, Eye } from "lucide-react";
 
 export const tableConfig = {
   title: "PA Underwriting",
@@ -25,12 +25,23 @@ export const tableConfig = {
     {
       key: "risk_class",
       header: "Occupation / Class",
-      render: (row) => (
-        <div>
-          <div className="font-semibold text-xs text-slate-700">{row.risk_class || "—"}</div>
-          <div className="text-[10px] text-slate-400 mt-0.5">{row.table_type || ""}</div>
-        </div>
-      ),
+      render: (row) => {
+        const rawRisk = String(row.risk_class || "").toLowerCase();
+        const cleanRisk = rawRisk ? rawRisk.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "—";
+        const rawTable = String(row.table_type || "").toLowerCase();
+        const tableMap = {
+          table_a: "Accidental Death & Full Disability (Permanent & Temporary)",
+          table_b: "Accidental Death & Permanent Disability",
+          table_c: "Accidental Death Only",
+        };
+        const cleanTable = tableMap[rawTable] || (row.table_type_option?.label || row.table_type || "").replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+        return (
+          <div>
+            <div className="font-semibold text-xs text-slate-700">{cleanRisk}</div>
+            <div className="text-[10px] text-slate-400 mt-0.5">{cleanTable}</div>
+          </div>
+        );
+      },
     },
     {
       key: "cert_type",
@@ -93,6 +104,16 @@ export const tableConfig = {
                 const s = String(r?.status || r?.payment_status || r?.mr_status || "").toLowerCase();
                 return s === "paid" || s === "payed" || r?.is_paid === true || r?.is_paid === 1 || r?.is_paid === "1";
               },
+            },
+            {
+              key: "preview",
+              icon: Eye,
+              title: "Preview PDF Document",
+              onClick: (r) => {
+                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://127.0.0.1:8000/api";
+                window.open(`${apiBase}/v1/pas/${r.id}/preview`, "_blank");
+              },
+              show: () => true,
             },
             {
               key: "edit",

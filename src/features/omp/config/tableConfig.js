@@ -1,7 +1,7 @@
 import React from "react";
 import Badge from "@/components/ui/Badge";
 import TableActions from "@/components/ui/TableActions";
-import { Edit2, Trash2, Award } from "lucide-react";
+import { Edit2, Trash2, Award, Eye } from "lucide-react";
 
 export const tableConfig = {
   title: "OMP Underwriting",
@@ -56,12 +56,47 @@ export const tableConfig = {
     {
       key: "plan_type",
       header: "Plan",
-      render: (row) => (
-        <div>
-          <div className="text-xs text-slate-600 font-medium">{row.plan_type || "—"}</div>
-          <div className="text-[10px] text-slate-400">{row.policy_type || ""}</div>
-        </div>
-      ),
+      render: (row) => {
+        const rawType = String(row.policy_type || "").toLowerCase();
+        const typeMap = {
+          business_holiday: "Business & Holiday",
+          employment_study: "Employment & Study",
+          holiday_travel: "Holiday Travel",
+          holiday: "Holiday Travel",
+          business: "Business Travel",
+          study: "Study Travel",
+          employment: "Employment Travel",
+        };
+        const cleanType = typeMap[rawType] || rawType.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+        return (
+          <div>
+            <div className="text-xs text-slate-600 font-medium">{row.plan_type || "—"}</div>
+            <div className="text-[10px] text-slate-400">{cleanType}</div>
+          </div>
+        );
+      },
+    },
+    {
+      key: "insamt",
+      header: "Sum Insured / Limit",
+      render: (row) => {
+        const rawIns = row.insamt || "50,000";
+        const match = String(rawIns).match(/(?:USD\s*)?([0-9]{1,3}(?:,[0-9]{3})*|[0-9]+)/i);
+        const medNum = match ? parseFloat(match[1].replace(/,/g, "")) : 50000;
+        return <span className="font-semibold text-xs text-slate-700">USD {(medNum || 50000).toLocaleString()}</span>;
+      },
+    },
+    {
+      key: "include_dental",
+      header: "Dental Coverage",
+      render: (row) => {
+        const hasDental = row.include_dental === true || row.include_dental === 1 || row.include_dental === "1" || row.include_dental === "true";
+        return (
+          <span className="text-xs text-slate-700 font-mono font-medium">
+            {hasDental ? "500" : "Not Included"}
+          </span>
+        );
+      },
     },
     {
       key: "total",
@@ -106,6 +141,16 @@ export const tableConfig = {
                 const s = String(r?.status || r?.payment_status || r?.mr_status || "").toLowerCase();
                 return s === "paid" || s === "payed" || r?.is_paid === true || r?.is_paid === 1 || r?.is_paid === "1";
               },
+            },
+            {
+              key: "preview",
+              icon: Eye,
+              title: "Preview PDF Document",
+              onClick: (r) => {
+                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://127.0.0.1:8000/api";
+                window.open(`${apiBase}/v1/omps/${r.id}/preview`, "_blank");
+              },
+              show: () => true,
             },
             {
               key: "edit",
