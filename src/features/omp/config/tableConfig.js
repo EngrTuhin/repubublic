@@ -130,6 +130,16 @@ export const tableConfig = {
           helpers={helpers}
           actions={[
             {
+              key: "preview",
+              icon: Eye,
+              title: "Preview PDF Document",
+              onClick: (r) => {
+                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://127.0.0.1:8000/api";
+                window.open(`${apiBase}/v1/omps/${r.id}/preview`, "_blank");
+              },
+              show: () => true,
+            },
+            {
               key: "certificate",
               icon: Award,
               title: "Generate OMP Insurance Certificate PDF",
@@ -142,16 +152,7 @@ export const tableConfig = {
                 return s === "paid" || s === "payed" || r?.is_paid === true || r?.is_paid === 1 || r?.is_paid === "1";
               },
             },
-            {
-              key: "preview",
-              icon: Eye,
-              title: "Preview PDF Document",
-              onClick: (r) => {
-                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://127.0.0.1:8000/api";
-                window.open(`${apiBase}/v1/omps/${r.id}/preview`, "_blank");
-              },
-              show: () => true,
-            },
+
             {
               key: "edit",
               icon: Edit2,

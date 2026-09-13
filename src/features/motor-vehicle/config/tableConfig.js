@@ -105,6 +105,24 @@ export const tableConfig = {
           row={row}
           helpers={helpers}
           actions={[
+
+            {
+              key: "preview",
+              icon: Eye,
+              title: "Preview PDF Document",
+              onClick: (r) => {
+                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
+                const typeLower = String(r?.class_sub_type || r?.cert_type || "").toLowerCase();
+                let type = "PV";
+                if (typeLower.includes("commercial") || typeLower.includes("cv") || typeLower.includes("tanker") || typeLower.includes("truck")) {
+                  type = "CV";
+                } else if (typeLower.includes("cycle") || typeLower.includes("mc") || typeLower.includes("bike")) {
+                  type = "MC";
+                }
+                window.open(`${apiBase}/v1/motorinsurances/${r.id}/preview?type=${type}`, "_blank");
+              },
+              show: () => true,
+            },
             {
               key: "certificate",
               icon: Award,
@@ -125,23 +143,7 @@ export const tableConfig = {
                 return s === "paid";
               },
             },
-            {
-              key: "preview",
-              icon: Eye,
-              title: "Preview PDF Document",
-              onClick: (r) => {
-                const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
-                const typeLower = String(r?.class_sub_type || r?.cert_type || "").toLowerCase();
-                let type = "PV";
-                if (typeLower.includes("commercial") || typeLower.includes("cv") || typeLower.includes("tanker") || typeLower.includes("truck")) {
-                  type = "CV";
-                } else if (typeLower.includes("cycle") || typeLower.includes("mc") || typeLower.includes("bike")) {
-                  type = "MC";
-                }
-                window.open(`${apiBase}/v1/motorinsurances/${r.id}/preview?type=${type}`, "_blank");
-              },
-              show: () => true,
-            },
+
             {
               key: "edit",
               icon: Edit2,
