@@ -68,6 +68,11 @@ export default function SystemSettingsPage() {
   const [certPrefix, setCertPrefix] = useState("CERT");
   const [certFormat, setCertFormat] = useState("CERT-{YEAR}-{SEQ:5}");
 
+  // Motor Certificate Numbering Settings
+  const [motorCertPrefix, setMotorCertPrefix] = useState("RIPLC");
+  const [motorCertFormat, setMotorCertFormat] = useState("{COMPANY}/HO/MV/{TYPE}/CERT-{SEQ:5}/{MONTH}/{YEAR}");
+  const [motorCertCompanyCode, setMotorCertCompanyCode] = useState("RIPLC");
+
   const [claimPrefix, setClaimPrefix] = useState("CLM");
   const [claimFormat, setClaimFormat] = useState("CLM-{YEAR}-{SEQ:5}");
 
@@ -106,6 +111,10 @@ export default function SystemSettingsPage() {
 
       setCertPrefix(settings.certificate_number_prefix || "CERT");
       setCertFormat(settings.certificate_number_format || "CERT-{YEAR}-{SEQ:5}");
+
+      setMotorCertPrefix(settings.motor_certificate_number_prefix || "RIPLC");
+      setMotorCertFormat(settings.motor_certificate_number_format || "{COMPANY}/HO/MV/{TYPE}/CERT-{SEQ:5}/{MONTH}/{YEAR}");
+      setMotorCertCompanyCode(settings.motor_cert_company_code || "RIPLC");
 
       setClaimPrefix(settings.claim_number_prefix || "CLM");
       setClaimFormat(settings.claim_number_format || "CLM-{YEAR}-{SEQ:5}");
@@ -166,6 +175,10 @@ export default function SystemSettingsPage() {
     formData.append("certificate_number_prefix", certPrefix);
     formData.append("certificate_number_format", certFormat);
 
+    formData.append("motor_certificate_number_prefix", motorCertPrefix);
+    formData.append("motor_certificate_number_format", motorCertFormat);
+    formData.append("motor_cert_company_code", motorCertCompanyCode);
+
     formData.append("claim_number_prefix", claimPrefix);
     formData.append("claim_number_format", claimFormat);
 
@@ -180,13 +193,16 @@ export default function SystemSettingsPage() {
   };
 
   // Helper function for local live example preview calculation
-  const getPreviewExample = (prefix, format, sampleNum = 1) => {
+  const getPreviewExample = (prefix, format, sampleNum = 1, extra = {}) => {
     const year = new Date().getFullYear();
     const month = String(new Date().getMonth() + 1).padStart(2, "0");
     let res = (format || "")
       .replace("{YEAR}", year)
       .replace("{MONTH}", month)
-      .replace("{PREFIX}", prefix || "");
+      .replace("{PREFIX}", prefix || "")
+      .replace("{COMPANY}", extra.company || motorCertCompanyCode || "RIPLC")
+      .replace("{BRANCH}", "HO")
+      .replace("{TYPE}", extra.type || "PV");
     if (/{SEQ(?::(\d+))?}/.test(res)) {
       res = res.replace(/{SEQ(?::(\d+))?}/, (_, len) => {
         const padLen = len ? parseInt(len) : 0;
@@ -496,7 +512,7 @@ export default function SystemSettingsPage() {
                 </h3>
                 <div className="flex items-center gap-1.5 text-xs text-blue-700 bg-blue-50 px-2.5 py-1 rounded">
                   <HelpCircle className="w-3.5 h-3.5" />
-                  <span>Tokens: <strong>{"{YEAR}"}</strong> = 2026, <strong>{"{SEQ:5}"}</strong> = 00001</span>
+                  <span>Tokens: <strong>{"{YEAR}"}</strong>, <strong>{"{MONTH}"}</strong>, <strong>{"{SEQ:5}"}</strong>, <strong>{"{COMPANY}"}</strong>, <strong>{"{BRANCH}"}</strong>, <strong>{"{TYPE}"}</strong> (PV/CM)</span>
                 </div>
               </div>
 
@@ -631,10 +647,44 @@ export default function SystemSettingsPage() {
                   </div>
                 </div>
 
+                {/* Motor Certificate Number Settings */}
+                <div className="p-4 border border-blue-200 rounded-lg space-y-3 bg-blue-50/40">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-xs font-bold text-gray-900">Motor Certificate (MV CERT)</h4>
+                      <p className="text-2xs text-gray-500">Auto-generated for Motor Certificates (PV = Private, CM = Commercial, MC = Motorcycle)</p>
+                    </div>
+                    <span className="text-xs font-mono font-bold text-blue-700 bg-blue-100 px-2.5 py-1 rounded border border-blue-300">
+                      Example: {examples.motor_certificate || getPreviewExample(motorCertPrefix, motorCertFormat, 31, { type: "PV" })}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div>
+                      <label className="block text-2xs font-bold text-gray-600 mb-1">Company Code</label>
+                      <input
+                        type="text"
+                        value={motorCertCompanyCode}
+                        onChange={(e) => setMotorCertCompanyCode(e.target.value)}
+                        placeholder="RIPLC"
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-blue-500 outline-none"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-2xs font-bold text-gray-600 mb-1">Format Pattern</label>
+                      <input
+                        type="text"
+                        value={motorCertFormat}
+                        onChange={(e) => setMotorCertFormat(e.target.value)}
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 {/* Certificate Number Settings */}
                 <div className="p-4 border border-gray-200 rounded-lg space-y-3 bg-gray-50/50">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-gray-900">Certificate Number</h4>
+                    <h4 className="text-xs font-bold text-gray-900">Certificate Number (General)</h4>
                     <span className="text-xs font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
                       Example: {examples.certificate || getPreviewExample(certPrefix, certFormat)}
                     </span>
