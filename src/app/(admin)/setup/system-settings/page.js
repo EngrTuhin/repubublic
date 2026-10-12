@@ -65,13 +65,10 @@ export default function SystemSettingsPage() {
   const [policyPrefix, setPolicyPrefix] = useState("POL");
   const [policyFormat, setPolicyFormat] = useState("POL-{YEAR}-{SEQ:5}");
 
-  const [certPrefix, setCertPrefix] = useState("CERT");
-  const [certFormat, setCertFormat] = useState("CERT-{YEAR}-{SEQ:5}");
-
-  // Motor Certificate Numbering Settings
-  const [motorCertPrefix, setMotorCertPrefix] = useState("RIPLC");
-  const [motorCertFormat, setMotorCertFormat] = useState("{COMPANY}/HO/MV/{TYPE}/CERT-{SEQ:5}/{MONTH}/{YEAR}");
-  const [motorCertCompanyCode, setMotorCertCompanyCode] = useState("RIPLC");
+  // Certificate Numbering Settings
+  const [certPrefix, setCertPrefix] = useState("RIPLC");
+  const [certFormat, setCertFormat] = useState("{COMPANY}/KAK/{polici}/{TYPE}/CERT-{SEQ:5}/{MONTH}/{YEAR}");
+  const [companyCode, setCompanyCode] = useState("RIPLC");
 
   const [claimPrefix, setClaimPrefix] = useState("CLM");
   const [claimFormat, setClaimFormat] = useState("CLM-{YEAR}-{SEQ:5}");
@@ -109,12 +106,11 @@ export default function SystemSettingsPage() {
       setPolicyPrefix(settings.policy_number_prefix || "POL");
       setPolicyFormat(settings.policy_number_format || "POL-{YEAR}-{SEQ:5}");
 
-      setCertPrefix(settings.certificate_number_prefix || "CERT");
-      setCertFormat(settings.certificate_number_format || "CERT-{YEAR}-{SEQ:5}");
-
-      setMotorCertPrefix(settings.motor_certificate_number_prefix || "RIPLC");
-      setMotorCertFormat(settings.motor_certificate_number_format || "{COMPANY}/HO/MV/{TYPE}/CERT-{SEQ:5}/{MONTH}/{YEAR}");
-      setMotorCertCompanyCode(settings.motor_cert_company_code || "RIPLC");
+      const fmt = settings.certificate_number_format || settings.motor_certificate_number_format || "{COMPANY}/KAK/{polici}/{TYPE}/CERT-{SEQ:5}/{MONTH}/{YEAR}";
+      const comp = settings.motor_cert_company_code || settings.certificate_number_prefix || "RIPLC";
+      setCertPrefix(comp);
+      setCompanyCode(comp);
+      setCertFormat(fmt);
 
       setClaimPrefix(settings.claim_number_prefix || "CLM");
       setClaimFormat(settings.claim_number_format || "CLM-{YEAR}-{SEQ:5}");
@@ -172,12 +168,11 @@ export default function SystemSettingsPage() {
     formData.append("policy_number_prefix", policyPrefix);
     formData.append("policy_number_format", policyFormat);
 
-    formData.append("certificate_number_prefix", certPrefix);
+    formData.append("certificate_number_prefix", companyCode);
     formData.append("certificate_number_format", certFormat);
-
-    formData.append("motor_certificate_number_prefix", motorCertPrefix);
-    formData.append("motor_certificate_number_format", motorCertFormat);
-    formData.append("motor_cert_company_code", motorCertCompanyCode);
+    formData.append("motor_certificate_number_prefix", companyCode);
+    formData.append("motor_certificate_number_format", certFormat);
+    formData.append("motor_cert_company_code", companyCode);
 
     formData.append("claim_number_prefix", claimPrefix);
     formData.append("claim_number_format", claimFormat);
@@ -196,15 +191,29 @@ export default function SystemSettingsPage() {
   const getPreviewExample = (prefix, format, sampleNum = 1, extra = {}) => {
     const year = new Date().getFullYear();
     const month = String(new Date().getMonth() + 1).padStart(2, "0");
+    const policyCode = extra.policy || extra.polici || "MV";
     let res = (format || "")
-      .replace("{YEAR}", year)
-      .replace("{MONTH}", month)
-      .replace("{PREFIX}", prefix || "")
-      .replace("{COMPANY}", extra.company || motorCertCompanyCode || "RIPLC")
-      .replace("{BRANCH}", "HO")
-      .replace("{TYPE}", extra.type || "PV");
-    if (/{SEQ(?::(\d+))?}/.test(res)) {
-      res = res.replace(/{SEQ(?::(\d+))?}/, (_, len) => {
+      .replace(/{YEAR}/gi, year)
+      .replace(/{MONTH}/gi, month)
+      .replace(/{PREFIX}/gi, prefix || "")
+      .replace(/{COMPANY}/gi, extra.company || companyCode || "RIPLC")
+      .replace(/{BRANCH}/gi, extra.branch || "KAK")
+      .replace(/{policy}/gi, policyCode)
+      .replace(/{polici}/gi, policyCode)
+      .replace(/{dept}/gi, policyCode);
+
+    if (res.includes("/MV/") && policyCode !== "MV") {
+      res = res.replace("/MV/", `/${policyCode}/`);
+    }
+
+    if (extra.type) {
+      res = res.replace(/{TYPE}/gi, extra.type);
+    } else {
+      res = res.replace(/\/\{TYPE\}\//gi, "/").replace(/\/\{TYPE\}/gi, "").replace(/\{TYPE\}\//gi, "").replace(/{TYPE}/gi, "");
+    }
+
+    if (/{SEQ(?::(\d+))?}/i.test(res)) {
+      res = res.replace(/{SEQ(?::(\d+))?}/i, (_, len) => {
         const padLen = len ? parseInt(len) : 0;
         return padLen > 0 ? String(sampleNum).padStart(padLen, "0") : String(sampleNum);
       });
@@ -212,7 +221,7 @@ export default function SystemSettingsPage() {
       const delimiter = res.endsWith("/") ? "" : "-";
       res += `${delimiter}${String(sampleNum).padStart(5, "0")}`;
     }
-    return res;
+    return res.replace(/(?<!:)\/\/+/g, "/");
   };
 
   return (
@@ -512,7 +521,7 @@ export default function SystemSettingsPage() {
                 </h3>
                 <div className="flex items-center gap-1.5 text-xs text-blue-700 bg-blue-50 px-2.5 py-1 rounded">
                   <HelpCircle className="w-3.5 h-3.5" />
-                  <span>Tokens: <strong>{"{YEAR}"}</strong>, <strong>{"{MONTH}"}</strong>, <strong>{"{SEQ:5}"}</strong>, <strong>{"{COMPANY}"}</strong>, <strong>{"{BRANCH}"}</strong>, <strong>{"{TYPE}"}</strong> (PV/CM)</span>
+                  <span>Tokens: <strong>{"{YEAR}"}</strong>, <strong>{"{MONTH}"}</strong>, <strong>{"{SEQ:5}"}</strong>, <strong>{"{COMPANY}"}</strong>, <strong>{"{polici}"}</strong>, <strong>{"{TYPE}"}</strong></span>
                 </div>
               </div>
 
@@ -647,15 +656,12 @@ export default function SystemSettingsPage() {
                   </div>
                 </div>
 
-                {/* Motor Certificate Number Settings */}
-                <div className="p-4 border border-blue-200 rounded-lg space-y-3 bg-blue-50/40">
+                {/* Certificate Number Settings */}
+                <div className="p-4 border border-gray-200 rounded-lg space-y-3 bg-gray-50/50">
                   <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-xs font-bold text-gray-900">Motor Certificate (MV CERT)</h4>
-                      <p className="text-2xs text-gray-500">Auto-generated for Motor Certificates (PV = Private, CM = Commercial, MC = Motorcycle)</p>
-                    </div>
-                    <span className="text-xs font-mono font-bold text-blue-700 bg-blue-100 px-2.5 py-1 rounded border border-blue-300">
-                      Example: {examples.motor_certificate || getPreviewExample(motorCertPrefix, motorCertFormat, 31, { type: "PV" })}
+                    <h4 className="text-xs font-bold text-gray-900">Certificate Number</h4>
+                    <span className="text-xs font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                      Example: {getPreviewExample(certPrefix, certFormat, 31, { policy: "MV", type: "PV" })}
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
@@ -663,39 +669,9 @@ export default function SystemSettingsPage() {
                       <label className="block text-2xs font-bold text-gray-600 mb-1">Company Code</label>
                       <input
                         type="text"
-                        value={motorCertCompanyCode}
-                        onChange={(e) => setMotorCertCompanyCode(e.target.value)}
+                        value={companyCode}
+                        onChange={(e) => setCompanyCode(e.target.value)}
                         placeholder="RIPLC"
-                        className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-blue-500 outline-none"
-                      />
-                    </div>
-                    <div className="col-span-2">
-                      <label className="block text-2xs font-bold text-gray-600 mb-1">Format Pattern</label>
-                      <input
-                        type="text"
-                        value={motorCertFormat}
-                        onChange={(e) => setMotorCertFormat(e.target.value)}
-                        className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-blue-500 outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Certificate Number Settings */}
-                <div className="p-4 border border-gray-200 rounded-lg space-y-3 bg-gray-50/50">
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-gray-900">Certificate Number (General)</h4>
-                    <span className="text-xs font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-                      Example: {examples.certificate || getPreviewExample(certPrefix, certFormat)}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <label className="block text-2xs font-bold text-gray-600 mb-1">Prefix</label>
-                      <input
-                        type="text"
-                        value={certPrefix}
-                        onChange={(e) => setCertPrefix(e.target.value)}
                         className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-blue-500 outline-none"
                       />
                     </div>
@@ -705,9 +681,25 @@ export default function SystemSettingsPage() {
                         type="text"
                         value={certFormat}
                         onChange={(e) => setCertFormat(e.target.value)}
+                        placeholder="{COMPANY}/KAK/{polici}/{TYPE}/CERT-{SEQ:5}/{MONTH}/{YEAR}"
                         className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-blue-500 outline-none"
                       />
                     </div>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1 text-[10px] text-gray-500">
+                    <span className="font-semibold text-gray-600">Policy Previews:</span>
+                    <span className="px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded border border-blue-200 font-mono">
+                      Motor: {getPreviewExample(certPrefix, certFormat, 31, { policy: "MV", type: "PV" })}
+                    </span>
+                    <span className="px-1.5 py-0.5 bg-emerald-50 text-emerald-700 rounded border border-emerald-200 font-mono">
+                      OMP: {getPreviewExample(certPrefix, certFormat, 31, { policy: "OMP", type: "" })}
+                    </span>
+                    <span className="px-1.5 py-0.5 bg-purple-50 text-purple-700 rounded border border-purple-200 font-mono">
+                      PA: {getPreviewExample(certPrefix, certFormat, 31, { policy: "PA", type: "" })}
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-gray-400">
+                    Tokens: <code className="text-gray-600 font-mono font-bold">{"{COMPANY}"}</code>, <code className="text-gray-600 font-mono font-bold">{"{polici}"}</code>, <code className="text-gray-600 font-mono font-bold">{"{TYPE}"}</code> (PV/CM/MC), <code className="text-gray-600 font-mono font-bold">{"{SEQ:5}"}</code>, <code className="text-gray-600 font-mono font-bold">{"{MONTH}"}</code>, <code className="text-gray-600 font-mono font-bold">{"{YEAR}"}</code>
                   </div>
                 </div>
 

@@ -140,12 +140,12 @@ export const tableConfig = {
               title: "Generate Insurance Certificate PDF",
               onClick: (r) => {
                 const apiBase = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
-                const typeLower = String(r?.class_sub_type || r?.cert_type || "").toLowerCase();
+                const typeLower = String(r?.class_sub_type || r?.cert_type || r?.vehicle_usage || "").toLowerCase();
                 let type = "PV";
-                if (typeLower.includes("commercial") || typeLower.includes("cv") || typeLower.includes("tanker") || typeLower.includes("truck")) {
-                  type = "CV";
-                } else if (typeLower.includes("cycle") || typeLower.includes("mc") || typeLower.includes("bike")) {
+                if (r?.motor_vehicle_usage_id === 3 || typeLower.includes("cycle") || typeLower.includes("mc") || typeLower.includes("bike") || typeLower.includes("scooter")) {
                   type = "MC";
+                } else if (r?.motor_vehicle_usage_id === 2 || typeLower.includes("commercial") || typeLower.includes("cm") || typeLower.includes("cv") || typeLower.includes("tanker") || typeLower.includes("truck") || typeLower.includes("bus") || typeLower.includes("lorry")) {
+                  type = "CM";
                 }
                 window.open(`${apiBase}/v1/motorinsurances/${r.id}/certificate?type=${type}`, "_blank");
               },
