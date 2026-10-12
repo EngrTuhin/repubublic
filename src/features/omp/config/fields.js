@@ -84,7 +84,7 @@ export const ompUnderwritingLayoutConfig = {
             { name: "insamt", label: "Sum Insured / Coverage Limit", type: "text", readOnly: true, placeholder: "Auto-calculated", colSpan: "col-span-12 md:col-span-4" },
             { name: "include_dental", label: "Include Emergency Dental Cover (USD 500 Limit)", type: "checkbox", colSpan: "col-span-12 md:col-span-4" },
             { name: "totprem", label: "Base Premium (BDT)", type: "text", readOnly: true, colSpan: "col-span-12 md:col-span-4" },
-            { name: "additional_loading", label: "20% Destination Loading (BDT)", type: "text", readOnly: true, placeholder: "0.00", colSpan: "col-span-12 md:col-span-4" },
+            { name: "additional_loading", label: "20% Destination Loading (BDT)", type: "text", placeholder: "0.00", colSpan: "col-span-12 md:col-span-4" },
             { name: "vat", label: "VAT 15% (BDT)", type: "text", readOnly: true, colSpan: "col-span-12 md:col-span-6" },
             { name: "total", label: "Total Gross Premium (BDT)", type: "text", readOnly: true, colSpan: "col-span-12 md:col-span-6" },
           ],

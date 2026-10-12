@@ -51,9 +51,16 @@ export default function SystemSettingsPage() {
   const [enableOmp, setEnableOmp] = useState(true);
   const [enablePa, setEnablePa] = useState(true);
 
-  // Numbering Settings State (Prefixes & Formats)
-  const [proposalPrefix, setProposalPrefix] = useState("PROP");
-  const [proposalFormat, setProposalFormat] = useState("PROP-{YEAR}-{SEQ:5}");
+  // Product-specific Proposal Numbering Settings State (Prefixes & Formats)
+  const [motorProposalPrefix, setMotorProposalPrefix] = useState("RIPLC/KAK/MV/");
+  const [motorProposalFormat, setMotorProposalFormat] = useState("RIPLC/KAK/MV/{SEQ:7}");
+
+  const [paProposalPrefix, setPaProposalPrefix] = useState("RIPLC/KAK/PAP/");
+  const [paProposalFormat, setPaProposalFormat] = useState("RIPLC/KAK/PAP/{SEQ:6}");
+
+  const [ompProposalPrefix, setOmpProposalPrefix] = useState("RIPLC/KAK/OMP/");
+  const [ompProposalFormat, setOmpProposalFormat] = useState("RIPLC/KAK/OMP/{SEQ:4}");
+
 
   const [policyPrefix, setPolicyPrefix] = useState("POL");
   const [policyFormat, setPolicyFormat] = useState("POL-{YEAR}-{SEQ:5}");
@@ -83,9 +90,16 @@ export default function SystemSettingsPage() {
       setEnableOmp(settings.enable_omp_insurance !== "false");
       setEnablePa(settings.enable_pa_insurance !== "false");
 
-      // Numbering
-      setProposalPrefix(settings.proposal_number_prefix || "PROP");
-      setProposalFormat(settings.proposal_number_format || "PROP-{YEAR}-{SEQ:5}");
+      // Product Proposal Numbering
+      setMotorProposalPrefix(settings.motor_proposal_number_prefix || "RIPLC/KAK/MV/");
+      setMotorProposalFormat(settings.motor_proposal_number_format || "RIPLC/KAK/MV/{SEQ:7}");
+
+      setPaProposalPrefix(settings.pa_proposal_number_prefix || "RIPLC/KAK/PAP/");
+      setPaProposalFormat(settings.pa_proposal_number_format || "RIPLC/KAK/PAP/{SEQ:6}");
+
+      setOmpProposalPrefix(settings.omp_proposal_number_prefix || "RIPLC/KAK/OMP/");
+      setOmpProposalFormat(settings.omp_proposal_number_format || "RIPLC/KAK/OMP/{SEQ:4}");
+
 
       setPolicyPrefix(settings.policy_number_prefix || "POL");
       setPolicyFormat(settings.policy_number_format || "POL-{YEAR}-{SEQ:5}");
@@ -135,9 +149,16 @@ export default function SystemSettingsPage() {
     formData.append("enable_omp_insurance", enableOmp ? "true" : "false");
     formData.append("enable_pa_insurance", enablePa ? "true" : "false");
 
-    // Numbering
-    formData.append("proposal_number_prefix", proposalPrefix);
-    formData.append("proposal_number_format", proposalFormat);
+    // Product-Specific Proposal Numbering
+    formData.append("motor_proposal_number_prefix", motorProposalPrefix);
+    formData.append("motor_proposal_number_format", motorProposalFormat);
+
+    formData.append("pa_proposal_number_prefix", paProposalPrefix);
+    formData.append("pa_proposal_number_format", paProposalFormat);
+
+    formData.append("omp_proposal_number_prefix", ompProposalPrefix);
+    formData.append("omp_proposal_number_format", ompProposalFormat);
+
 
     formData.append("policy_number_prefix", policyPrefix);
     formData.append("policy_number_format", policyFormat);
@@ -159,10 +180,22 @@ export default function SystemSettingsPage() {
   };
 
   // Helper function for local live example preview calculation
-  const getPreviewExample = (prefix, format) => {
+  const getPreviewExample = (prefix, format, sampleNum = 1) => {
     const year = new Date().getFullYear();
-    let res = format.replace("{YEAR}", year).replace("{PREFIX}", prefix);
-    res = res.replace(/{SEQ:(\d+)}/, (_, len) => "1".padStart(parseInt(len), "0"));
+    const month = String(new Date().getMonth() + 1).padStart(2, "0");
+    let res = (format || "")
+      .replace("{YEAR}", year)
+      .replace("{MONTH}", month)
+      .replace("{PREFIX}", prefix || "");
+    if (/{SEQ(?::(\d+))?}/.test(res)) {
+      res = res.replace(/{SEQ(?::(\d+))?}/, (_, len) => {
+        const padLen = len ? parseInt(len) : 0;
+        return padLen > 0 ? String(sampleNum).padStart(padLen, "0") : String(sampleNum);
+      });
+    } else {
+      const delimiter = res.endsWith("/") ? "" : "-";
+      res += `${delimiter}${String(sampleNum).padStart(5, "0")}`;
+    }
     return res;
   };
 
@@ -468,12 +501,15 @@ export default function SystemSettingsPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Proposal Number Settings */}
-                <div className="p-4 border border-gray-200 rounded-lg space-y-3 bg-gray-50/50">
+                {/* Motor Vehicle Proposal Number */}
+                <div className="p-4 border border-blue-200 rounded-lg space-y-3 bg-blue-50/30">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-gray-900">Proposal Number</h4>
-                    <span className="text-xs font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-                      Example: {examples.proposal || getPreviewExample(proposalPrefix, proposalFormat)}
+                    <div>
+                      <h4 className="text-xs font-bold text-gray-900">Motor Vehicle (MV) Proposal</h4>
+                      <p className="text-2xs text-gray-500">Auto-generated when creating Motor policies</p>
+                    </div>
+                    <span className="text-xs font-mono font-bold text-blue-700 bg-blue-100 px-2.5 py-1 rounded border border-blue-300">
+                      Example: {examples.motor_proposal || getPreviewExample(motorProposalPrefix, motorProposalFormat, 4234234)}
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
@@ -481,8 +517,8 @@ export default function SystemSettingsPage() {
                       <label className="block text-2xs font-bold text-gray-600 mb-1">Prefix</label>
                       <input
                         type="text"
-                        value={proposalPrefix}
-                        onChange={(e) => setProposalPrefix(e.target.value)}
+                        value={motorProposalPrefix}
+                        onChange={(e) => setMotorProposalPrefix(e.target.value)}
                         className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-blue-500 outline-none"
                       />
                     </div>
@@ -490,13 +526,80 @@ export default function SystemSettingsPage() {
                       <label className="block text-2xs font-bold text-gray-600 mb-1">Format Pattern</label>
                       <input
                         type="text"
-                        value={proposalFormat}
-                        onChange={(e) => setProposalFormat(e.target.value)}
+                        value={motorProposalFormat}
+                        onChange={(e) => setMotorProposalFormat(e.target.value)}
                         className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-blue-500 outline-none"
                       />
                     </div>
                   </div>
                 </div>
+
+                {/* Personal Accident (PAP) Proposal Number */}
+                <div className="p-4 border border-indigo-200 rounded-lg space-y-3 bg-indigo-50/30">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-xs font-bold text-gray-900">Personal Accident (PAP) Proposal</h4>
+                      <p className="text-2xs text-gray-500">Auto-generated when creating PA policies</p>
+                    </div>
+                    <span className="text-xs font-mono font-bold text-indigo-700 bg-indigo-100 px-2.5 py-1 rounded border border-indigo-300">
+                      Example: {examples.pa_proposal || getPreviewExample(paProposalPrefix, paProposalFormat, 432423)}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div>
+                      <label className="block text-2xs font-bold text-gray-600 mb-1">Prefix</label>
+                      <input
+                        type="text"
+                        value={paProposalPrefix}
+                        onChange={(e) => setPaProposalPrefix(e.target.value)}
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-indigo-500 outline-none"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-2xs font-bold text-gray-600 mb-1">Format Pattern</label>
+                      <input
+                        type="text"
+                        value={paProposalFormat}
+                        onChange={(e) => setPaProposalFormat(e.target.value)}
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-indigo-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Overseas Mediclaim (OMP) Proposal Number */}
+                <div className="p-4 border border-teal-200 rounded-lg space-y-3 bg-teal-50/30">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-xs font-bold text-gray-900">Overseas Mediclaim (OMP) Proposal</h4>
+                      <p className="text-2xs text-gray-500">Auto-generated when creating OMP policies</p>
+                    </div>
+                    <span className="text-xs font-mono font-bold text-teal-700 bg-teal-100 px-2.5 py-1 rounded border border-teal-300">
+                      Example: {examples.omp_proposal || getPreviewExample(ompProposalPrefix, ompProposalFormat, 4324)}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div>
+                      <label className="block text-2xs font-bold text-gray-600 mb-1">Prefix</label>
+                      <input
+                        type="text"
+                        value={ompProposalPrefix}
+                        onChange={(e) => setOmpProposalPrefix(e.target.value)}
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-teal-500 outline-none"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block text-2xs font-bold text-gray-600 mb-1">Format Pattern</label>
+                      <input
+                        type="text"
+                        value={ompProposalFormat}
+                        onChange={(e) => setOmpProposalFormat(e.target.value)}
+                        className="w-full px-2.5 py-1.5 bg-white border border-gray-300 rounded text-xs font-mono text-gray-900 focus:ring-1 focus:ring-teal-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
 
                 {/* Policy Number Settings */}
                 <div className="p-4 border border-gray-200 rounded-lg space-y-3 bg-gray-50/50">

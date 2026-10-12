@@ -46,7 +46,24 @@ export default function FormBuilder({ config, hookData }) {
       );
     }
 
-    const visibleFields = (section.fields || []).filter((f) => !f.hidden);
+    if (section.visibility && typeof watch === "function") {
+      if (typeof section.visibility === "function") {
+        if (!section.visibility(watch)) return null;
+      } else if (!section.visibility) {
+        return null;
+      }
+    }
+
+    const visibleFields = (section.fields || []).filter((f) => {
+      if (f.hidden) return false;
+      if (f.visibility && typeof watch === "function") {
+        if (typeof f.visibility === "function") {
+          return f.visibility(watch);
+        }
+        return !!f.visibility;
+      }
+      return true;
+    });
     if (visibleFields.length === 0) return null;
 
     return (

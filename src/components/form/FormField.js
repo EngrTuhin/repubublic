@@ -261,8 +261,8 @@ export default function FormField({
                     }
                   }}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${isSelected
-                      ? `${activeStyle} border-transparent`
-                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900"
+                    ? `${activeStyle} border-transparent`
+                    : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900"
                     }`}
                 >
                   {opt.label}

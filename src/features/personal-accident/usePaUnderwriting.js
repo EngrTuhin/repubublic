@@ -27,13 +27,13 @@ const PA_DEFAULTS = {
 
 // Calculate Personal Accident Stamp Duty
 function calculatePaStampDuty(sumInsured) {
-  const amt = Math.max(0, Number(sumInsured) || 0);
+  const cleanStr = String(sumInsured ?? "").replace(/,/g, "").trim();
+  const amt = Math.max(0, parseFloat(cleanStr) || 0);
   if (amt <= 0) return 0;
   if (amt <= 25000) return 20;
 
-  const excessAmount = amt - 25000;
-  const additionalTiers = Math.ceil(excessAmount / 5000);
-  return 20 + (additionalTiers * 20);
+  const tiers = Math.ceil(amt / 5000);
+  return tiers * 20;
 }
 
 // Fallback rate per 10,000 BDT

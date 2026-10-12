@@ -10,6 +10,7 @@ import {
 } from "./motorVehicleApi";
 
 import { calculateMotorPremium } from "./calculations/motorCalculations";
+import { fetchTariffRates } from "./config/fields";
 
 export function useMotorUnderwriting(id) {
   const router = useRouter();
@@ -26,20 +27,21 @@ export function useMotorUnderwriting(id) {
 
   const formMethods = useForm({
     defaultValues: {
-      bill_no: "00022",
+      bill_no: "",
       bill_date: "",
       principalBranch: "Principal Branch",
       operator: "csoft",
-      motor_cer_type: "",
-      searchBillNo: "",
-      searchCertNo: "",
+      motor_cer_type: "Private Vehicle",
+      cert_type: "Comprehensive",
+      coverage_type: "Comprehensive",
       clientcode: "",
+      user_id: "",
+      cl_name: "",
       cl_add: "",
-      bankcode: "",
-      bank_br_code: "",
-      bank_add: "",
-      cert_type: "",
+      motor_class_sub_type_id: "",
       class_sub_type: "",
+      motor_vehicle_usage_id: "1",
+      vehicle_usage: "Private Use",
       reg_mark: "",
       previous_insurance_no: "",
       engno: "",
@@ -48,69 +50,41 @@ export function useMotorUnderwriting(id) {
       model: "",
       year: "",
       power: "",
+      set_capacity: "",
+      bus_type: "",
       sdate: "",
       edate: "",
-      periodof: "12",
-      pday: "365",
-      producerNo: "",
-      producerName: "",
-      ren_cert_no: "",
-      limitation: "",
-      coins: false,
-      otherleader: false,
-      lead_per: "",
-      leadcompany: "",
-      lead_docno: "",
-      pw_edit: false,
-      rcode: false,
-      ttgroup: "",
-      fname: "",
-      tname: "",
-      capacity: "",
-      premium_type: "general",
+      driver_qty: "1",
+      driver_rate: "",
+      passenger_qty: "0",
+      passenger_rate: "",
+      helper_qty: "0",
+      helper_rate: "",
+      conductor_qty: "0",
+      conductor_rate: "",
+      supervisor_qty: "0",
+      supervisor_rate: "",
+      has_tracker: false,
+      has_technometer: false,
+      cycloned: true,
+      riot: true,
+      earthd: true,
+      has_tax_exemption: false,
+      tax_exemption_doc: null,
+      ncb_1st_year: false,
+      ncb_2nd_year: false,
+      ncb_3rd_year: false,
+      claim_loading_1st_time: false,
+      claim_loading_2nd_time: false,
+      claim_loading_3rd_time: false,
       insamt: "",
-      basic: "",
-      rate: "",
-      odpamt: "",
-      less_excl: "",
-      avts: false,
-      avtsamt: "",
-      short_per: "",
+      own_dp_basic: "",
+      full_ins_value: "",
+      act_liability: "",
       totprem: "",
-      premiumPercent: "100",
-      loadtextper: "",
-      actl: "",
-      passenger: "",
-      pamt: "",
-      pas_amt: "",
-      driver: "driver_paid",
-      driver_amt: "",
-      ncb: "",
-      noclaim_actl: "",
-      ncbamt: "",
-      loadper: "",
-      addload_actl: "",
-      loadamt: "",
-      ex_load_amt: "",
-      extra1: false,
-      extra1_amt: "",
-      discount: "",
-      disamt: "",
-      theftamt: "",
       premium: "",
-      addVat: true,
       vat: "",
       total: "",
-      cyclonebm_rate: "0.25",
-      cycloneamt: "",
-      cycloned: false,
-      riot_rate: "0.50",
-      riot_amt: "",
-      riot: false,
-      earth_rate: "0.25",
-      earthamt: "",
-      earthd: false,
-      narration: "",
       status: "Pending Underwriting",
     },
   });
@@ -134,8 +108,17 @@ export function useMotorUnderwriting(id) {
     "cycloned",
     "riot",
     "earthd",
-    "cyclone",
-    "earthcue",
+    "has_tracker",
+    "has_technometer",
+    "has_tax_exemption",
+    "hasPreviousInsurance",
+    "previous_insurance_no",
+    "ncb_1st_year",
+    "ncb_2nd_year",
+    "ncb_3rd_year",
+    "claim_loading_1st_time",
+    "claim_loading_2nd_time",
+    "claim_loading_3rd_time",
     "driver_rate",
     "passenger_rate",
     "helper_rate",
@@ -146,9 +129,10 @@ export function useMotorUnderwriting(id) {
     "helper_qty",
     "conductor_qty",
     "supervisor_qty",
-    "driver",
-    "passenger",
-    "addVat",
+    "motor_vehicle_usage_id",
+    "motor_cer_type",
+    "cert_type",
+    "coverage_type",
   ]);
 
   useEffect(() => {
@@ -167,39 +151,93 @@ export function useMotorUnderwriting(id) {
   useEffect(() => {
     if (existingData) {
       const record = existingData.data || existingData;
-      const vatVal = parseFloat(record.vat);
-      const hasVat = !isNaN(vatVal) && vatVal > 0;
       const rawCov = record.coverage_type || record.cert_type || record.ttgroup;
       const covArray = Array.isArray(rawCov)
         ? rawCov
-        : (rawCov ? [rawCov] : ["Comprehensive Insurance"]);
+        : (rawCov ? [rawCov] : ["Comprehensive"]);
+
+      const hasPrev = Boolean(
+        record.hasPreviousInsurance ||
+        record.has_previous_insurance ||
+        (record.previous_insurance_no && String(record.previous_insurance_no).trim().length > 0) ||
+        (record.prev_policy_no && String(record.prev_policy_no).trim().length > 0) ||
+        (record.prev_policy_number && String(record.prev_policy_number).trim().length > 0)
+      );
+
+      // Format bill_no to 7-digit zero-padded sequence (e.g. RIPLC/KAK/MV/0000010)
+      let formattedBillNo = record.bill_no || "";
+      if (formattedBillNo) {
+        let prefix = "RIPLC/KAK/MV/";
+        let seq = "";
+        const lastSlash = String(formattedBillNo).lastIndexOf("/");
+        if (lastSlash !== -1) {
+          prefix = String(formattedBillNo).substring(0, lastSlash + 1);
+          seq = String(formattedBillNo).substring(lastSlash + 1);
+        } else {
+          const match = String(formattedBillNo).match(/\d+$/);
+          seq = match ? match[0] : "";
+        }
+        if (seq) {
+          seq = String(seq).padStart(7, "0");
+          formattedBillNo = `${prefix}${seq}`;
+        }
+      }
 
       reset({
         ...record,
+        bill_no: formattedBillNo,
+        hasPreviousInsurance: hasPrev,
+        previous_insurance_no: record.previous_insurance_no || record.prev_policy_no || record.prev_policy_number || "",
         status: record.status || "Pending Underwriting",
         coverage_type: covArray,
-        cert_type: record.cert_type || covArray[0],
-        vehicle_usage: record.vehicle_usage || record.usage || "private_use",
-        addVat: hasVat ? true : (record.addVat !== undefined ? !!record.addVat : false),
-        cycloned: !!record.cycloned,
-        riot: !!record.riot,
-        earthd: !!record.earthd,
+        cert_type: record.cert_type || covArray[0] || "Comprehensive",
+        motor_vehicle_usage_id: record.motor_vehicle_usage_id || record.vehicle_usage || "1",
+        vehicle_usage: record.vehicle_usage || record.motor_vehicle_usage_id || "Private Use",
+        cycloned: record.cycloned !== undefined && record.cycloned !== null ? !!record.cycloned : true,
+        riot: record.riot !== undefined && record.riot !== null ? !!record.riot : true,
+        earthd: record.earthd !== undefined && record.earthd !== null ? !!record.earthd : true,
+        has_tracker: !!record.has_tracker,
+        has_technometer: !!record.has_technometer,
+        has_tax_exemption: !!record.has_tax_exemption,
+        ncb_1st_year: !!record.ncb_1st_year,
+        ncb_2nd_year: !!record.ncb_2nd_year,
+        ncb_3rd_year: !!record.ncb_3rd_year,
+        claim_loading_1st_time: !!record.claim_loading_1st_time,
+        claim_loading_2nd_time: !!record.claim_loading_2nd_time,
+        claim_loading_3rd_time: !!record.claim_loading_3rd_time,
         coins: !!record.coins,
         otherleader: !!record.otherleader,
         pw_edit: !!record.pw_edit,
         rcode: !!record.rcode,
         avts: !!record.avts,
         extra1: !!record.extra1,
+        // Standard peril & tariff rates with fallbacks
+        accidental_external_means_rate: record.accidental_external_means_rate || "1.15",
+        fire_rate: record.fire_rate || "0.25",
+        theft_rate: record.theft_rate || "0.25",
+        flood_cyclone_rate: record.flood_cyclone_rate || record.cyclone || "0.25",
+        riot_strike_rate: record.riot_strike_rate || record.riot_rate || "0.50",
+        earthquake_rate: record.earthquake_rate || record.earthcue || "0.25",
+        ncb_1st_year_rate: record.ncb_1st_year_rate || "30",
+        ncb_2nd_year_rate: record.ncb_2nd_year_rate || "40",
+        ncb_3rd_year_rate: record.ncb_3rd_year_rate || "50",
+        claim_loading_1st_time_rate: record.claim_loading_1st_time_rate || "30",
+        claim_loading_2nd_time_rate: record.claim_loading_2nd_time_rate || "40",
+        claim_loading_3rd_time_rate: record.claim_loading_3rd_time_rate || "50",
+        techno_meter_discount: record.techno_meter_discount_rate || "10",
+        tracking_device_discount: record.tracking_device_discount_rate || "10",
+        vat_exemption_rate: record.vat_exemption_rate || "25",
       });
-      setTimeout(() => calculateMotorPremium(setValue, getValues), 100);
+      fetchTariffRates(setValue, getValues, 0);
+      setTimeout(() => calculateMotorPremium(setValue, getValues), 150);
     }
-  }, [existingData, reset]);
+  }, [existingData, reset, setValue, getValues]);
 
   const onSubmit = async (data) => {
     setErrorMessage("");
     setSaveSuccess(false);
     try {
-      console.log("Submitting underwriting:", data);
+      console.log("Submitting motor underwriting admin form:", data);
       let resObj;
       if (isEditMode) {
         resObj = await updateMotorUnderwriting({ id, data }).unwrap();
@@ -272,9 +310,10 @@ export function useMotorUnderwriting(id) {
     underwritingData: existingData?.data || existingData,
     isSaving: isCreating || isUpdating,
     ...formMethods,
-    errors: formMethods.formState.errors, // Kept for backwards compatibility if needed, or FormBuilder can use formMethods.formState.errors
+    errors: formMethods.formState.errors,
     onSubmit,
     handleSearchBill: () => { },
     getOptionsForField: (field) => field.options,
+    fetchTariffRates: () => fetchTariffRates(setValue, getValues),
   };
 }

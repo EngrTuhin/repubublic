@@ -23,10 +23,10 @@ export const tableConfig = {
       render: (row) => (
         <div>
           <div className="font-bold text-xs text-slate-900">
-            #{row.bill_no || row.billNo}
+            #{row.bill_no || row.billNo || row.id}
           </div>
           <div className="text-[10px] text-slate-400 font-medium mt-0.5">
-            {row.bill_date || row.billDate}
+            {row.bill_date || row.billDate || row.sdate || "—"}
           </div>
         </div>
       ),
@@ -36,7 +36,7 @@ export const tableConfig = {
       header: "Insured Name",
       render: (row) => (
         <div className="font-semibold text-xs text-slate-700">
-          {row?.user?.name}
+          {row?.cl_name || row?.user?.name || row?.titlename || "—"}
         </div>
       ),
     },
@@ -52,35 +52,46 @@ export const tableConfig = {
     {
       key: "cert_type",
       header: "Certificate",
-      render: (row) => (
-        <Badge
-          variant={
-            (row.cert_type || row.typeOfCertificate) === "Comprehensive"
-              ? "primary"
-              : "secondary"
-          }
-        >
-          {row.cert_type || row.typeOfCertificate || "Standard"}
-        </Badge>
-      ),
+      render: (row) => {
+        const cert = Array.isArray(row.cert_type)
+          ? row.cert_type[0]
+          : (row.cert_type || row.typeOfCertificate || "Standard");
+        return (
+          <Badge
+            variant={
+              cert === "Comprehensive" || cert === "Comprehensive Insurance"
+                ? "primary"
+                : "secondary"
+            }
+          >
+            {cert}
+          </Badge>
+        );
+      },
     },
     {
       key: "premium",
       header: "Net Premium",
-      render: (row) => (
-        <span className="text-xs text-slate-600 font-mono">
-          BDT {(parseFloat(row.premium) || 0).toLocaleString()}
-        </span>
-      ),
+      render: (row) => {
+        const val = parseFloat(row.totprem ?? row.premium) || 0;
+        return (
+          <span className="text-xs text-slate-600 font-mono">
+            BDT {val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+        );
+      },
     },
     {
       key: "total",
       header: "Gross Premium",
-      render: (row) => (
-        <span className="text-xs text-slate-900 font-bold font-mono">
-          BDT {(parseFloat(row.total || row.grossPremium) || 0).toLocaleString()}
-        </span>
-      ),
+      render: (row) => {
+        const val = parseFloat(row.total ?? row.grossPremium) || 0;
+        return (
+          <span className="text-xs text-slate-900 font-bold font-mono">
+            BDT {val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+        );
+      },
     },
     {
       key: "status",

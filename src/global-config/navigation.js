@@ -83,6 +83,11 @@ export const menuConfig = [
             label: "Vehicle Usages",
             href: "/setup/motor-setup/vehicle-usages",
           },
+          {
+            id: "motor-comprehensive-liability-configs",
+            label: "Comp & Liability Config",
+            href: "/setup/motor-setup/comprehensive-liability-configs",
+          },
           // {
           //   id: "motor-certificate-types",
           //   label: "Certificates",

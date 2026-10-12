@@ -1,0 +1,35 @@
+export const formFieldsConfig = [
+  {
+    name: "name",
+    label: "Coverage / Rate Name",
+    type: "text",
+    required: true,
+    placeholder: "e.g. Fire Rate, Theft Rate, Earthquake Rate, VAT Exemption Rate",
+    colSpan: "col-span-12 md:col-span-6",
+  },
+  // {
+  //   name: "key",
+  //   label: "Rate Code / Key",
+  //   type: "text",
+  //   required: true,
+  //   placeholder: "e.g. fire_rate, theft_rate, vat_exemption_rate",
+  //   colSpan: "col-span-12 md:col-span-6",
+  // },
+  {
+    name: "value",
+    label: "Applicable Rate (%)",
+    type: "number",
+    step: "any",
+    required: true,
+    placeholder: "e.g. 0.25, 25",
+    colSpan: "col-span-12",
+  },
+  {
+    name: "description",
+    label: "Description",
+    type: "textarea",
+    required: false,
+    placeholder: "Enter optional description or legal notes...",
+    colSpan: "col-span-12",
+  },
+];
